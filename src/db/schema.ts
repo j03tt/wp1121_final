@@ -26,18 +26,22 @@ export const songsTable = pgTable(
   "songs",
   {
     id: serial("id").primaryKey(),
-    userName: varchar("user_name", { length: 50 })
+    userId: integer("user_id")
       .notNull()
-      .references(() => usersTable.userName, { onDelete: "cascade", onUpdate: "cascade" }),
-    song: varchar("song", { length: 150 }),
+      .references(() => usersTable.id, { onDelete: "cascade"}),
+    songName: varchar("song_name", { length: 50 }).notNull(),
+    singerName: varchar("singer_name", { length: 50 }).notNull(),
+    songLink: varchar("song_link", { length: 150 }).notNull(),
     createdAt: timestamp("created_at").default(sql`now()`),
-    reviewers: integer("reviewers"),
-    score: integer("score"),
-    thumbnail: varchar("thumbnail", { length: 150 }),
+    reviewers: integer("reviewers").notNull(),
+    score: integer("score").notNull(),
+    thumbnail: varchar("thumbnail", { length: 150 }).notNull(),
   },
   (table) => ({
-    userNameIndex: index("user_name_index").on(table.userName),
-    songIndex: index("song_index").on(table.song),
+    userNameIndex: index("user_name_index").on(table.userId),
+    songNameIndex: index("song_name_index").on(table.songName),
+    singerNameIndex: index("singer_name_index").on(table.singerName),
+    songLinkIndex: index("song_link_index").on(table.songLink),
     createdAtIndex: index("created_at_index").on(table.createdAt),
     reviewersIndex: index("reviewers_index").on(table.reviewers),
     scoreIndex: index("score_index").on(table.score),
