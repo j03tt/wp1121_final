@@ -59,6 +59,7 @@ export const commentsTable = pgTable(
     userId: integer("user_id")
       .notNull()
       .references(() => usersTable.id, { onDelete: "cascade"}),
+    content: varchar("content", { length: 200}),
     createdAt: timestamp("created_at").default(sql`now()`),
   },
   (table) => ({
