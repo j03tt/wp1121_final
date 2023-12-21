@@ -49,6 +49,20 @@ export const songsTable = pgTable(
   }),
 );
 
+export const scoresTable = pgTable(
+  "scores",
+  {
+    id: serial("id").primaryKey(),
+    songId: integer("song_id")
+      .notNull()
+      .references(() => songsTable.id, { onDelete: "cascade"}),
+    reviewerId: varchar("reviewer", { length: 50 })
+      .notNull()
+      .references(() => usersTable.id, { onDelete: "cascade"}),
+    score: integer("score").notNull(),
+  },
+)
+
 export const commentsTable = pgTable(
   "comments",
   {
