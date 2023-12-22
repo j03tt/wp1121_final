@@ -9,12 +9,14 @@ import {
   unique,
   varchar,
   numeric,
+  uuid,
 } from "drizzle-orm/pg-core";
 
 export const usersTable = pgTable(
   "users",
   {
     id: serial("id").primaryKey(),
+    displayId: uuid("display_id").defaultRandom().notNull().unique(),
     name: varchar("name", { length: 50 }).notNull(), // user name
     email: varchar("email", { length: 100 }).notNull().unique(), // user email 
     password: varchar("password", { length: 100 }), // user password
