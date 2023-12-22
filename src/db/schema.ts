@@ -1,3 +1,4 @@
+import { table } from "console";
 import { sql } from "drizzle-orm";
 import {
   index,
@@ -13,12 +14,18 @@ export const usersTable = pgTable(
   "users",
   {
     id: serial("id").primaryKey(),
-    userName: varchar("user_name", { length: 50 }).notNull().unique(),
-    password: varchar("password", { length: 100 }).notNull(),
+    name: varchar("name", { length: 50 }).notNull(),
+    email: varchar("email", { length: 100 }).notNull().unique(),
+    password: varchar("password", { length: 100 }),
+    provider: varchar("provider", { length: 100, enum: ["github", "credentials"] })
+      .notNull()
+      .default("credentials"),
+    bio: varchar("bio", { length: 300 }),
   },
   (table) => ({
-    userNameIndex: index("user_index").on(table.userName),
-    passeordIndex: index("password_index").on(table.password),
+    userNameIndex: index("user_index").on(table.name),
+    passwordIndex: index("password_index").on(table.password),
+    emailIndex: index("email_index").on(table.email),
   }),
 );
 
@@ -26,26 +33,26 @@ export const songsTable = pgTable(
   "songs",
   {
     id: serial("id").primaryKey(),
-    userId: integer("user_id")
+    uploadUser: varchar("user_name", { length: 50 })
       .notNull()
-      .references(() => usersTable.id, { onDelete: "cascade"}),
+      .references(() => usersTable.name, { onDelete: "cascade"}),
+    avgScore: integer("average_score").notNull(),
+    reviewers: integer("reviewers").notNull(),
     songName: varchar("song_name", { length: 50 }).notNull(),
     singerName: varchar("singer_name", { length: 50 }).notNull(),
     songLink: varchar("song_link", { length: 150 }).notNull(),
     createdAt: timestamp("created_at").default(sql`now()`),
-    reviewers: integer("reviewers").notNull(),
-    score: integer("score").notNull(),
     thumbnail: varchar("thumbnail", { length: 150 }).notNull(),
   },
   (table) => ({
-    userNameIndex: index("user_name_index").on(table.userId),
+    userNameIndex: index("user_name_index").on(table.uploadUser),
     songNameIndex: index("song_name_index").on(table.songName),
     singerNameIndex: index("singer_name_index").on(table.singerName),
     songLinkIndex: index("song_link_index").on(table.songLink),
     createdAtIndex: index("created_at_index").on(table.createdAt),
-    reviewersIndex: index("reviewers_index").on(table.reviewers),
-    scoreIndex: index("score_index").on(table.score),
     thumbnailIndex: index("thumbnail_index").on(table.thumbnail),
+    avgScoreIndex: index("average_score_index").on(table.avgScore),
+    reviewersIndex: index("reviewers_index").on(table.reviewers),
   }),
 );
 
@@ -56,11 +63,19 @@ export const scoresTable = pgTable(
     songId: integer("song_id")
       .notNull()
       .references(() => songsTable.id, { onDelete: "cascade"}),
-    reviewerId: varchar("reviewer", { length: 50 })
+    userId: varchar("user_id", { length: 50 })
       .notNull()
       .references(() => usersTable.id, { onDelete: "cascade"}),
     score: integer("score").notNull(),
+    createdAt: timestamp("created_at").default(sql`now()`),
   },
+  (table) => ({
+    songIdIndex: index("song_id_index").on(table.songId),
+    reviewersIndex: index("reviewers_index").on(table.userId),
+    scoreIndex: index("score_index").on(table.score),
+    createdAtIndex: index("created_at_index").on(table.createdAt),
+    constraint: unique("song_score").on(table.songId, table.userId)
+  }),
 )
 
 export const commentsTable = pgTable(
@@ -73,12 +88,13 @@ export const commentsTable = pgTable(
     userId: integer("user_id")
       .notNull()
       .references(() => usersTable.id, { onDelete: "cascade"}),
-    content: varchar("content", { length: 200}),
+    content: varchar("content", { length: 200 }),
     createdAt: timestamp("created_at").default(sql`now()`),
   },
   (table) => ({
     userIdIndex: index("user_id_index").on(table.userId),
     songIdIndex: index("song_id_index").on(table.songId),
+    contentIndex: index("content_index").on(table.content),
     createdAtIndex: index("created_at_index").on(table.createdAt),
   }),
 )
@@ -99,6 +115,7 @@ export const likesTable = pgTable(
     userIdIndex: index("user_id_index").on(table.userId),
     commentIdIndex: index("comment_id_index").on(table.commentId),
     createdAtIndex: index("created_at_index").on(table.createdAt),
+    constraint: unique("likes").on(table.commentId, table.userId),
   }),
 );
 
@@ -118,6 +135,7 @@ export const dislikesTable = pgTable(
     userIdIndex: index("user_id_index").on(table.userId),
     commentIdIndex: index("comment_id_index").on(table.commentId),
     createdAtIndex: index("created_at_index").on(table.createdAt),
+    constraint: unique("dislikes").on(table.commentId, table.userId),
   }),
 );
 
