@@ -1,7 +1,7 @@
 import NextAuth from "next-auth";
 
 import CredentialsProvider from "@/hooks/components/CredentialsProvider"
-import GithubProvider from '@/hooks/components/GithubProvider';
+import GitHub from "next-auth/providers/github";
 
 import { eq } from "drizzle-orm";
 
@@ -10,7 +10,7 @@ import { usersTable } from "@/db/schema";
 
 export default function useAuth(){
   const { handlers: { GET, POST }, auth } = NextAuth({
-    providers: [GithubProvider, CredentialsProvider],
+    providers: [GitHub, CredentialsProvider],
     callbacks: {
       async session({ session, token }) {
         const email = token.email || session?.user?.email;
