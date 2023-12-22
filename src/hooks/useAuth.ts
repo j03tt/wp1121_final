@@ -9,10 +9,7 @@ import { db } from "@/db";
 import { usersTable } from "@/db/schema";
 
 export default function useAuth(){
-  const {
-    handlers: { GET, POST },
-    auth,
-  } = NextAuth({
+  const { handlers: { GET, POST }, auth } = NextAuth({
     providers: [GithubProvider, CredentialsProvider],
     callbacks: {
       async session({ session, token }) {
@@ -70,5 +67,8 @@ export default function useAuth(){
     },
   });
 
-  return { handlers: { GET, POST }, auth };
+  return { 
+    handlers: { GET, POST },
+    auth
+   };
 };

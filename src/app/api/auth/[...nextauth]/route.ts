@@ -1,3 +1,6 @@
-import POST from "@/hooks/useAuth"
-import GET from "@/hooks/useAuth"
-export { GET, POST }
+// api.js
+import useAuth from "@/hooks/useAuth";
+
+const { handlers: {GET, POST} } = useAuth();
+
+export { GET, POST };
