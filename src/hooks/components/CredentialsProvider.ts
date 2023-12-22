@@ -46,14 +46,12 @@ export default CredentialsProvider({
       .where(eq(usersTable.email, validatedCredentials.email.toLowerCase()))
       .execute();
     if (!existedUser) {
-      // Sign up
       if (!name) {
         console.log("Name is required.");
         return null;
       }
-      // TODO: 2.1 Hash password with bcrypt
+
       const hashedPassword = await bcrypt.hash(password, 10); // change this line
-      // TODO: 2.1 end
 
       const [createdUser] = await db
         .insert(usersTable)

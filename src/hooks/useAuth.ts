@@ -1,6 +1,3 @@
-// src/lib/hooks/useAuth.ts
-
-import { NextAuthOptions } from 'next-auth';
 import NextAuth from "next-auth";
 
 import CredentialsProvider from "@/hooks/components/CredentialsProvider"
@@ -69,7 +66,7 @@ export default function useAuth(){
       },
     },
     pages: {
-      signIn: "/",
+      signIn: "/auth",
     },
   });
 

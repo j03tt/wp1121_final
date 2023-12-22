@@ -1,4 +1,3 @@
-import { table } from "console";
 import { sql } from "drizzle-orm";
 import {
   index,
@@ -91,7 +90,7 @@ export const commentsTable = pgTable(
     userName: varchar("user_name", { length: 50 })  // who comment
       .notNull()
       .references(() => usersTable.name, { onDelete: "cascade"}),
-    content: varchar("content", { length: 200 }), // content of comments
+    content: varchar("content", { length: 300 }), // content of comments
     createdAt: timestamp("created_at").default(sql`now()`), // when comments be maked
   },
   (table) => ({
