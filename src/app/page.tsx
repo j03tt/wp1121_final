@@ -1,7 +1,12 @@
 import { eq, desc, isNull, sql, like, notIlike, and} from "drizzle-orm";
 import { db } from "@/db";
 import { likesTable, songsTable, usersTable } from "@/db/schema";
+
+import useAuth from "@/hooks/useAuth";
+
 import NewSongButton from "@/components/uploadSong";
+import SignInButton from "@/components/SignInButton";
+import SignOutButton from "@/components/SignOutButton";
 
 type HomePageProps = {
   searchParams: {
@@ -12,6 +17,8 @@ type HomePageProps = {
 export default async function Home({
   searchParams: { username },
 }: HomePageProps) {
+  const { auth } = useAuth();
+  const session = await auth();
   // if (username) {
   //   await db
   //     .insert(usersTable)
@@ -68,9 +75,16 @@ export default async function Home({
 
   return (
     <>
-      <div className="flex h-screen w-full max-w-2xl flex-col overflow-scroll pt-2">
-        <h1 className="mb-2 bg-white px-4 text-xl font-bold text-center">Join me!</h1>
-          <NewSongButton></NewSongButton>
+      <div className="flex h-screen w-full flex-col overflow-scroll pt-2">
+        <h1 className="mb-2 bg-black px-4 text-xl font-bold text-center">Music!</h1>
+          <NewSongButton/>
+          {!session?.user?.id? (
+            <SignInButton/>
+          ) : (
+            // 等 sign in 沒問題可以再把 <NewSongButton/> 移進來
+            <SignOutButton/>
+          )}
+
         {/* <div className="flex flex-col w-full content-center items-center px-4 pt-3">
           <ProfileButton />
         </div>
