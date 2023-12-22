@@ -2,7 +2,7 @@ import { useState } from "react";
 
 import { useRouter } from "next/navigation";
 
-export default function useActivity() {
+export default function useSong() {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
 
