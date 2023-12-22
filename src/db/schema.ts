@@ -34,10 +34,10 @@ export const songsTable = pgTable(
   "songs",
   {
     id: serial("id").primaryKey(),
-    uploadUser: varchar("user_name", { length: 50 })
+    uploadUser: varchar("upload_user", { length: 50 })
       .notNull()
       .references(() => usersTable.name, { onDelete: "cascade"}),
-    avgScore: numeric("average_score").notNull(),
+    avgScore: numeric("average_score", { precision: 10, scale: 2 }).notNull(),
     reviewers: integer("reviewers").notNull(),
     songName: varchar("song_name", { length: 50 }).notNull(),
     singerName: varchar("singer_name", { length: 50 }).notNull(),
@@ -86,14 +86,14 @@ export const commentsTable = pgTable(
     songId: integer("song_id")
       .notNull()
       .references(() => songsTable.id, { onDelete: "cascade" }),
-    userId: integer("user_id")
+    userName: varchar("user_name", { length: 50 })
       .notNull()
-      .references(() => usersTable.id, { onDelete: "cascade"}),
+      .references(() => usersTable.name, { onDelete: "cascade"}),
     content: varchar("content", { length: 200 }),
     createdAt: timestamp("created_at").default(sql`now()`),
   },
   (table) => ({
-    userIdIndex: index("user_id_index").on(table.userId),
+    userNameIndex: index("user_name_index").on(table.userName),
     songIdIndex: index("song_id_index").on(table.songId),
     contentIndex: index("content_index").on(table.content),
     createdAtIndex: index("created_at_index").on(table.createdAt),

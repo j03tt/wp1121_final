@@ -7,34 +7,34 @@ export default function useSong() {
   const router = useRouter();
 
   const postSong = async ({
-    userId,
+    username,
     songName,
     singerName,
     songLink,
-    reviewers,
-    score,
     thumbnail,
+    reviewer,
+    score,
   }: {
-    userId: number,
+    username: string,
     songName: string,
     singerName: string,
     songLink: string,
-    reviewers: number,
-    score:number,
     thumbnail: string,
+    reviewer: number,
+    score: number,
   }) => {
     setLoading(true);
 
     const res = await fetch("/api/song", {
       method: "POST",
       body: JSON.stringify({
-        userId,
-        songName,
-        singerName,
-        songLink,
-        reviewers,
-        score,
-        thumbnail,
+        userName: username,
+        songName: songName,
+        singerName: singerName,
+        songLink: songLink,
+        reviewers: reviewer,
+        score: score,
+        thumbnail: thumbnail,
       }),
     });
     if (!res.ok) {

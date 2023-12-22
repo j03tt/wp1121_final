@@ -7,7 +7,7 @@ import { songsTable } from "@/db/schema";
 import { desc, like, eq } from "drizzle-orm";
 
 const postSongRequestSchema = z.object({
-  userId: z.number().positive(),
+  userName: z.string().min(1).max(50),
   songName: z.string().min(1).max(50),
   singerName: z.string().min(1).max(50),
   songLink: z.string().min(1).max(150),
@@ -35,22 +35,21 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "Invalid request" }, { status: 400 });
   }
 
-  const { userId, songName, singerName, songLink, reviewers, score, thumbnail } = data as postSongRequest;
+  const { userName, songName, singerName, songLink, reviewers, score, thumbnail } = data as postSongRequest;
 
   try {
     
     await db
       .insert(songsTable)
       .values({
-        userId,
-        songName,
-        singerName,
-        songLink,
-        reviewers,
-        score,
-        thumbnail,
+        uploadUser: userName,
+        avgScore: score.toString(),
+        reviewers: reviewers,
+        songName: songName,
+        singerName: singerName,
+        songLink: songLink,
+        thumbnail: thumbnail,
       })
-      .execute();
   } catch (error) {
     return NextResponse.json(
       { error: "Something went wrong" },
@@ -64,18 +63,22 @@ export async function POST(request: NextRequest) {
 export async function GET(){
   // console.log("Hello!")
   try {
-    const [activity] = await db
+    const [song] = await db
       .select({
-        id: songsTable.id,
-        // activityName: activitiesTable.activityName,
+        username: songsTable.uploadUser,
+        songName: songsTable.songName,
+        singerName: songsTable.singerName,
+        songLink: songsTable.songLink,
+        thumbnail: songsTable.thumbnail,
+        reviewer: songsTable.reviewers,
+        score: songsTable.avgScore,
       })
       .from(songsTable)
       .orderBy(desc(songsTable.createdAt))
       .limit(1)
       .execute()
 
-    console.log("Route: ", activity)
-    return NextResponse.json(activity);
+    return NextResponse.json(song);
   } catch (error) {
     console.error(error);
     return NextResponse.json({ error: "Something went wrong" }, { status: 500 });
@@ -99,7 +102,7 @@ export async function PUT(request: NextRequest) {
       .update(songsTable)
       .set({
         reviewers,
-        score,
+        avgScore: score.toString(),
       })
       .where(eq(songsTable.id, songId))
       .execute();
