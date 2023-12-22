@@ -65,7 +65,7 @@ export const scoresTable = pgTable(
     songId: integer("song_id") // id of the song in songsTable
       .notNull()
       .references(() => songsTable.id, { onDelete: "cascade"}),
-    userId: varchar("user_id", { length: 50 }) // id of the song in songsTable
+    userId: integer("user_id") // id of the song in songsTable
       .notNull()
       .references(() => usersTable.id, { onDelete: "cascade"}),
     score: integer("score").notNull(), // user score for this song
