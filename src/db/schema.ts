@@ -8,6 +8,7 @@ import {
   timestamp,
   unique,
   varchar,
+  numeric,
 } from "drizzle-orm/pg-core";
 
 export const usersTable = pgTable(
@@ -36,7 +37,7 @@ export const songsTable = pgTable(
     uploadUser: varchar("user_name", { length: 50 })
       .notNull()
       .references(() => usersTable.name, { onDelete: "cascade"}),
-    avgScore: integer("average_score").notNull(),
+    avgScore: numeric("average_score").notNull(),
     reviewers: integer("reviewers").notNull(),
     songName: varchar("song_name", { length: 50 }).notNull(),
     singerName: varchar("singer_name", { length: 50 }).notNull(),
