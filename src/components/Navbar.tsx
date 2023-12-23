@@ -17,13 +17,13 @@ export default async function Navbar() {
   // const projects = await getProjects(userId);
   return (
     <nav className="flex min-w-fit flex-col justify-between gap-2 overflow-hidden bg-gray-100">
-      <div className="flex h-10 w-full flex-row items-center gap-12 px-6 py-8 pt-8">
-        <h2 className="text-2xl font-bold" data-testid="title">
+      <div className="flex bg-black h-10 w-full flex-row items-center gap-12 px-6 py-8 pt-8">
+        <h2 className="text-2xl font-bold">
           Your Projects
         </h2>
       </div>
       <Separator />
-      <div className="flex w-full items-center justify-between gap-8 px-4 py-2">
+      <div className="flex bg-black w-full items-center justify-between gap-8 px-4 py-2">
         <div className="flex items-center gap-2">
           <div className="flex h-8 w-8 items-center justify-center rounded-full bg-blue-200"></div>
           <span className="text-md font-semibold">
