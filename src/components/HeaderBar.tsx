@@ -10,6 +10,7 @@ import SignOutButton from "@/components/SignOutButton";
 export default async function HeaderBar() {
   const { auth } = useAuth();
   const session = await auth();
+  const user_id = session?.user?.id;
 
   return (
     <div className="flex flex-row items-center justify-between px-4 mb-4">
@@ -28,8 +29,11 @@ export default async function HeaderBar() {
                     <SignOutButton />
                 </div>
                 
-                {/* profile page */}
-                <Link href={`/ProfilePage/${session?.user?.id}`}>
+                {/* profile page goes from here*/}
+                <Link 
+                    href={{
+                        pathname: `/profile/${user_id}`
+                    }}>
                     <div className="flex items-center gap-2">
                     <div className="flex h-8 w-8 items-center justify-center rounded-full bg-blue-400 cursor-pointer"></div>
                     <span className="text-md font-semibold">
