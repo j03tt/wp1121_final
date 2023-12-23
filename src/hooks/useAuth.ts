@@ -24,7 +24,7 @@ export default function useAuth(){
           .from(usersTable)
           .where(eq(usersTable.email, email.toLowerCase()))
           .execute();
-
+        
         return {
           ...session,
           user: {
@@ -66,7 +66,7 @@ export default function useAuth(){
       signIn: "/auth",
     },
   });
-
+  
   return { 
     handlers: { GET, POST },
     auth
