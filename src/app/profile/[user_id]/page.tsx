@@ -24,7 +24,7 @@ export default async function ProfilePage({
 			<HeaderBar />
 			
 			<div className="flex flex-row items-center justify-between px-4 mb-4">
-                Profile Page Goes Here
+                Profile Page Goes Here, user_id = {user_id}
             </div>
 		</div>
 	);
