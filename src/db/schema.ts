@@ -16,7 +16,7 @@ export const usersTable = pgTable(
   {
     id: serial("id").primaryKey(),
     displayId: uuid("display_id").defaultRandom().notNull().unique(),
-    name: varchar("name", { length: 50 }).notNull(), // user name
+    name: varchar("user_name", { length: 50 }).notNull(), // user name
     email: varchar("email", { length: 100 }).notNull().unique(), // user email 
     password: varchar("password", { length: 100 }), // user password
     provider: varchar("provider", { length: 100, enum: ["github", "credentials"] }) //provider
@@ -35,9 +35,9 @@ export const songsTable = pgTable(
   "songs",
   {
     id: serial("id").primaryKey(),
-    uploadUser: varchar("upload_user", { length: 50 }) // name of people who upload the song
+    userId: integer("user_id") // name of people who upload the song
       .notNull()
-      .references(() => usersTable.name, { onDelete: "cascade"}),
+      .references(() => usersTable.id, { onDelete: "cascade", onUpdate: "cascade"}),
     avgScore: numeric("average_score", { precision: 10, scale: 2 }).notNull(), // the average score of song
     reviewers: integer("reviewers").notNull(), // the number of people who score the song
     songName: varchar("song_name", { length: 50 }).notNull(), // name of song
@@ -47,7 +47,7 @@ export const songsTable = pgTable(
     thumbnail: varchar("thumbnail", { length: 150 }).notNull(), // link of song's thumbnail
   },
   (table) => ({
-    userNameIndex: index("user_name_index").on(table.uploadUser),
+    userNameIndex: index("user_name_index").on(table.userId),
     songNameIndex: index("song_name_index").on(table.songName),
     singerNameIndex: index("singer_name_index").on(table.singerName),
     songLinkIndex: index("song_link_index").on(table.songLink),
@@ -64,10 +64,10 @@ export const scoresTable = pgTable(
     id: serial("id").primaryKey(),
     songId: integer("song_id") // id of the song in songsTable
       .notNull()
-      .references(() => songsTable.id, { onDelete: "cascade"}),
+      .references(() => songsTable.id, { onDelete: "cascade", onUpdate: "cascade"}),
     userId: integer("user_id") // id of the song in songsTable
       .notNull()
-      .references(() => usersTable.id, { onDelete: "cascade"}),
+      .references(() => usersTable.id, { onDelete: "cascade", onUpdate: "cascade"}),
     score: integer("score").notNull(), // user score for this song
     createdAt: timestamp("created_at").default(sql`now()`), // when the score be graded
   },
@@ -86,15 +86,15 @@ export const commentsTable = pgTable(
     id: serial("id").primaryKey(),
     songId: integer("song_id")  // which song be comment
       .notNull()
-      .references(() => songsTable.id, { onDelete: "cascade" }),
-    userName: varchar("user_name", { length: 50 })  // who comment
+      .references(() => songsTable.id, { onDelete: "cascade", onUpdate: "cascade" }),
+    userId: integer("user_id")  // who comment
       .notNull()
-      .references(() => usersTable.name, { onDelete: "cascade"}),
+      .references(() => usersTable.id, { onDelete: "cascade", onUpdate: "cascade" }),
     content: varchar("content", { length: 300 }), // content of comments
     createdAt: timestamp("created_at").default(sql`now()`), // when comments be maked
   },
   (table) => ({
-    userNameIndex: index("user_name_index").on(table.userName),
+    userNameIndex: index("user_name_index").on(table.userId),
     songIdIndex: index("song_id_index").on(table.songId),
     contentIndex: index("content_index").on(table.content),
     createdAtIndex: index("created_at_index").on(table.createdAt),
@@ -102,15 +102,15 @@ export const commentsTable = pgTable(
 )
 
 export const likesTable = pgTable(
-  "likes",
+  "like",
   {
     id: serial("id").primaryKey(),
     userId: integer("user_id")
       .notNull()
-      .references(() => usersTable.id, { onDelete: "cascade"}),
+      .references(() => usersTable.id, { onDelete: "cascade",onUpdate: "cascade" }),
     commentId: integer("comment_id")
       .notNull()
-      .references(() => commentsTable.id, { onDelete: "cascade" }),
+      .references(() => commentsTable.id, { onDelete: "cascade", onUpdate: "cascade" }),
     createdAt: timestamp("created_at").default(sql`now()`),
   },
   (table) => ({
@@ -122,15 +122,15 @@ export const likesTable = pgTable(
 );
 
 export const dislikesTable = pgTable(
-  "dislikes",
+  "dislike",
   {
     id: serial("id").primaryKey(),
     userId: integer("user_id")
       .notNull()
-      .references(() => usersTable.id, { onDelete: "cascade"}),
+      .references(() => usersTable.id, { onDelete: "cascade", onUpdate: "cascade"}),
     commentId: integer("comment_id")
       .notNull()
-      .references(() => commentsTable.id, { onDelete: "cascade" }),
+      .references(() => commentsTable.id, { onDelete: "cascade", onUpdate: "cascade" }),
     createdAt: timestamp("created_at").default(sql`now()`),
   },
   (table) => ({
