@@ -6,7 +6,8 @@ import useAuth from "@/hooks/useAuth";
 
 import NewSongButton from "@/components/uploadSong";
 import SignInButton from "@/components/SignInButton";
-import SignOutButton from "@/components/SignOutButton";
+// import SignOutButton from "@/components/SignOutButton";
+import Navbar from "@/components/Navbar";
 
 type HomePageProps = {
   searchParams: {
@@ -82,7 +83,7 @@ export default async function Home({
             <SignInButton/>
           ) : (
             // 等 sign in 沒問題可以再把 <NewSongButton/> 移進來
-            <SignOutButton/>
+            <Navbar/>
           )}
 
         {/* <div className="flex flex-col w-full content-center items-center px-4 pt-3">
