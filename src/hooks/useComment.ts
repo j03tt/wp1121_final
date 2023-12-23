@@ -8,11 +8,11 @@ export default function useComment() {
 
   const postComment = async ({
     songId, 
-    userName, 
+    userId, 
     content,
   }: {
     songId: number, 
-    userName: string, 
+    userId: number, 
     content: string,
   }) => {
     setLoading(true);
@@ -21,7 +21,7 @@ export default function useComment() {
       method: "POST",
       body: JSON.stringify({
         songId, 
-        userName, 
+        userId, 
         content,
       }),
     });
