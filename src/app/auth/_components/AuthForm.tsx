@@ -25,6 +25,17 @@ function AuthForm() {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    if (!email || !password) {
+      alert("Invalid Input!");
+      return;
+    }
+    if (isSignUp) {
+      if (!name || !confirmPassword) {
+        alert("Invalid Input!");
+        return;
+      }
+    }
     
     signIn("credentials", {
       email,
