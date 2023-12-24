@@ -14,7 +14,7 @@ type SongProps = {
   songTitle: string,
   singer: string,
   reviewers: number,
-  score: number,
+  score: string,
   image: string
 };
 
