@@ -6,7 +6,7 @@ export default function useLike() {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
 
-  const postLike = async ({
+  const postDisike = async ({
     userId,
     commentId,
   }: {
@@ -16,7 +16,7 @@ export default function useLike() {
     if (loading) return;
     setLoading(true);
 
-    const res = await fetch("/api/like", {
+    const res = await fetch("/api/dislike", {
       method: "POST",
       body: JSON.stringify({
         userId,
@@ -33,10 +33,10 @@ export default function useLike() {
     setLoading(false);
   };
 
-  const getLikes = async () => {
+  const getDislikes = async () => {
     setLoading(true);
 
-    const res = await fetch("/api/like", {
+    const res = await fetch("/api/dislike", {
       method: "GET",
     });
 
@@ -51,7 +51,7 @@ export default function useLike() {
     return data;
   };
 
-  const deleteLike = async ({
+  const deleteDislike = async ({
     userId,
     commentId,
   }: {
@@ -61,7 +61,7 @@ export default function useLike() {
     if (loading) return;
 
     setLoading(true);
-    const res = await fetch("/api/like", {
+    const res = await fetch("/api/dislike", {
       method: "DELETE",
       body: JSON.stringify({
         userId,
@@ -79,9 +79,9 @@ export default function useLike() {
   };
 
   return {
-    postLike,
-    getLikes,
-    deleteLike,
+    postDisike,
+    getDislikes,
+    deleteDislike,
     loading,
   };
 }
