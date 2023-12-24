@@ -15,7 +15,7 @@ export default function useSong() {
     reviewer,
     score,
   }: {
-    username: number,
+    userId: number,
     songName: string,
     singerName: string,
     songLink: string,
