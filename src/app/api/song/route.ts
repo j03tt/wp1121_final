@@ -7,7 +7,7 @@ import { songsTable } from "@/db/schema";
 import { desc, like, eq } from "drizzle-orm";
 
 const postSongRequestSchema = z.object({
-  userName: z.string().min(1).max(50),
+  userId: z.number().positive(),
   songName: z.string().min(1).max(50),
   singerName: z.string().min(1).max(50),
   songLink: z.string().min(1).max(150),
@@ -35,14 +35,14 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "Invalid request" }, { status: 400 });
   }
 
-  const { userName, songName, singerName, songLink, reviewers, score, thumbnail } = data as postSongRequest;
+  const { userId, songName, singerName, songLink, reviewers, score, thumbnail } = data as postSongRequest;
 
   try {
     
     await db
       .insert(songsTable)
       .values({
-        uploadUser: userName,
+        userId: userId,
         avgScore: score.toString(),
         reviewers: reviewers,
         songName: songName,
@@ -65,7 +65,7 @@ export async function GET(){
   try {
     const [song] = await db
       .select({
-        username: songsTable.uploadUser,
+        userId: songsTable.userId,
         songName: songsTable.songName,
         singerName: songsTable.singerName,
         songLink: songsTable.songLink,
