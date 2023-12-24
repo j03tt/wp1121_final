@@ -8,7 +8,7 @@ import { publicEnv } from "@/lib/env/public";
 import { redirect } from "next/navigation";
 
 import HeaderBar from "@/components/HeaderBar";
-// import { Button } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
 
 type ProfilePageProps = {
     params: {
@@ -34,7 +34,7 @@ export default async function ProfilePage({
             display_id: usersTable.displayId,
             name: usersTable.name,
             email: usersTable.email,
-            bio: usersTable.bio, // [editable!]
+            bio: usersTable.bio, // [todo: edit bio]
         })
         .from(usersTable)
         .where(eq(usersTable.displayId, user_id))
@@ -76,9 +76,32 @@ export default async function ProfilePage({
 	return (
 		<div className="flex h-screen w-full flex-col overflow-auto pt-2">
 			<HeaderBar />
-			
-			<div className="flex flex-row items-center justify-between px-4 mb-4">
-                Profile Page Goes Here, name = {userData.name}
+			<Separator />
+			<div className="flex flex-row items-start justify-center px-4 mt-4">
+                <div className="p-6 rounded-lg shadow-md w-96">
+                    <h2 className="text-2xl font-semibold mb-2">Profile Information</h2>
+                    <div className="mb-4">
+                        <strong>Name:</strong> {userData.name}
+                    </div>
+                    <div className="mb-4">
+                        <strong>Email:</strong> {userData.email}
+                    </div>
+                    <div className="mb-4">
+                        <strong>Bio:</strong> {userData.bio}
+                    </div>
+                </div>
+                <div className="p-6 rounded-lg shadow-md w-96">
+                    <h2 className="text-2xl font-semibold mb-2">Uploaded Songs</h2>
+                    <div className="mb-4">
+                        singer name - song name
+                    </div>
+                </div>
+                <div className="p-6 rounded-lg shadow-md w-96">
+                    <h2 className="text-2xl font-semibold mb-2">Reviewed Songs</h2>
+                    <div className="mb-4">
+                        singer name - song name
+                    </div>
+                </div>
             </div>
 		</div>
 	);

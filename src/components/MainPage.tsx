@@ -12,7 +12,7 @@ export default async function MainPage() {
   const session = await auth();
 
   return (
-    <div className="flex flex-row items-center justify-between px-4 mb-4">
+    <div className="flex flex-row items-center justify-between px-4 mt-4">
         Main Page Goes Here
     </div>
   );  
