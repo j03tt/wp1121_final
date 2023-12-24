@@ -66,6 +66,7 @@ export async function GET(){
     const [song] = await db
       .select({
         userId: songsTable.userId,
+        songId: songsTable.id,
         songName: songsTable.songName,
         singerName: songsTable.singerName,
         songLink: songsTable.songLink,
