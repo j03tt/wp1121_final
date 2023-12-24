@@ -4,7 +4,6 @@ import { useRef, useState } from "react";
 import useUserInfo from '@/hooks/useUserInfo'
 import { useRouter } from "next/navigation";
 import useSong from '@/hooks/useSong'
-// import { useSearchParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -38,18 +37,18 @@ export default function SongDialog({open, onClose} : actDiaProp) {
     const link = linkInputRef.current?.value;
     const src = srcInputRef.current?.value;
 
-    if(!(title && singer && link && src)) {
+    if(!(username && title && singer && link && src)) {
       alert('Invalid format, please try again.')
       return;
     }
 
     try {
       await postSong({
-        userId : 0,
+        username : username,
         songName : title,
         singerName : singer,
         songLink : link,
-        reviewers : 0,
+        reviewer : 0,
         score : 0,
         thumbnail : src,
       });

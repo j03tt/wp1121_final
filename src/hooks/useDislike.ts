@@ -6,7 +6,7 @@ export default function useLike() {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
 
-  const postDisike = async ({
+  const postDislike = async ({
     userId,
     commentId,
   }: {
@@ -79,7 +79,7 @@ export default function useLike() {
   };
 
   return {
-    postDisike,
+    postDislike,
     getDislikes,
     deleteDislike,
     loading,
