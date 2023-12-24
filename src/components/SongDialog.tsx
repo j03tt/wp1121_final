@@ -44,7 +44,7 @@ export default function SongDialog({open, onClose} : actDiaProp) {
 
     try {
       await postSong({
-        username : username,
+        userId: username,
         songName : title,
         singerName : singer,
         songLink : link,
