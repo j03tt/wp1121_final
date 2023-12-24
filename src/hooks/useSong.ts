@@ -7,7 +7,7 @@ export default function useSong() {
   const router = useRouter();
 
   const postSong = async ({
-    username,
+    userId,
     songName,
     singerName,
     songLink,
@@ -15,7 +15,7 @@ export default function useSong() {
     reviewer,
     score,
   }: {
-    username: string,
+    username: number,
     songName: string,
     singerName: string,
     songLink: string,
@@ -28,7 +28,7 @@ export default function useSong() {
     const res = await fetch("/api/song", {
       method: "POST",
       body: JSON.stringify({
-        userName: username,
+        userId: userId,
         songName: songName,
         singerName: singerName,
         songLink: songLink,
