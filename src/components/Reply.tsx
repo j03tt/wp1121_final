@@ -5,7 +5,7 @@ import DislikeButton from "./DislikeButton";
 
 type ReplyProps = {
   id: number;
-  authorName: number;
+  authorName: string;
   content: string;
   createdAt: Date;
   // liked?: boolean;

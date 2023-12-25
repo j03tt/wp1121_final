@@ -41,10 +41,8 @@ export default async function Home({
       <div className="flex flex-col items-center justify-between px-4 mb-4">
           Main Page Goes Here
           <div className="flex h-screen w-full max-w-2xl flex-col overflow-scroll pt-2">
-          <h1 className="mb-2 bg-white px-4 text-xl font-bold text-center">Join me!</h1>
+          <h1 className="mb-2 bg-grey px-4 text-xl font-bold text-center">SongList</h1>
           {songs.map((song) => (
-            <>
-              <h1>hi</h1>
               <Song
                 key={song.id}
                 id={song.id}
@@ -55,7 +53,6 @@ export default async function Home({
                 score={song.avgScore}
                 image={song.image}
               />
-            </>
           ))}
         </div>
       </div>

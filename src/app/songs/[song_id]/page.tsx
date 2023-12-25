@@ -56,8 +56,9 @@ export default async function SongPage({
       createAt: commentsTable.createdAt
     })
     .from(commentsTable)
-    .where(and(eq(songsTable.id, song_id_num), eq(commentsTable.userId, usersTable.displayId)))
+    .where(eq(commentsTable.songId, song_id_num))
     .orderBy(desc(commentsTable.createdAt))
+    .innerJoin(usersTable, eq(commentsTable.userId, usersTable.id))
     .execute();
   if (!songData) {
     errorRedirect();
@@ -98,24 +99,19 @@ export default async function SongPage({
 
   return (
     <>
-      <div className="flex h-screen w-full max-w-2xl flex-col overflow-scroll pt-2">
-        <div className="mb-2 flex items-center gap-8 px-4">
+      <div className="flex h-screen w-full flex-col overflow-hidden pt-2">
+        <div className="mb-2 flex items-center justify-center w-full gap-8 px-4">
           <Link href={{ pathname: "/", query: { username } }}>
             <ArrowLeft size={18} />
           </Link>
-          <h1 className="text-xl font-bold">Song</h1>
+          <h1 className="text-xl font-bold text-center">Song</h1>
         </div>
         <div className="flex flex-col px-4 pt-3">
           <div className="flex justify-between">
             <div className="flex w-full gap-3">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
               <div>
                 <p className="font-bold">
-                  Song title: @{song.songName ?? "..."}
-                  {/* <time className="my-4 block text-sm text-gray-500">
-                     wrote at 
-                    <TimeText date={tweet.createdAt} format="h:mm A · D MMM YYYY" /> :
-                  </time> */}
+                  Song title: {song.songName ?? "..."}
                 </p>
                 <p className="font-bold">Singer: {song.singerName ?? "..."}</p>
               </div>
@@ -124,13 +120,6 @@ export default async function SongPage({
               <MoreHorizontal size={16} />
             </button>
           </div>
-          <Separator />
-          <div className="my-2 flex items-center justify-between gap-4 text-gray-400">
-            <button className="rounded-full p-1.5 transition-colors duration-300 hover:bg-brand/10 hover:text-brand">
-              <Share size={18} />
-            </button>
-          </div>
-          <Separator />
         </div>
         <Separator />
         {replies.map((reply) => (
