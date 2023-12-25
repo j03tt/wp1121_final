@@ -11,7 +11,7 @@ export default function NewActButton() {
     <Button variant={"outline"}
       onClick={() => setActDia(true)}
     >
-      Publish!
+      Post!
     </Button>
     <TweetDialog
      open = {actDia}

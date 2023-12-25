@@ -7,33 +7,33 @@ export default function useSong() {
   const router = useRouter();
 
   const postSong = async ({
-    userId,
+    userName,
     songName,
     singerName,
     songLink,
     thumbnail,
-    reviewer,
-    score,
+    reviewers,
+    avgScore,
   }: {
-    userId: number,
+    userName: string,
     songName: string,
     singerName: string,
     songLink: string,
     thumbnail: string,
-    reviewer: number,
-    score: number,
+    reviewers: number,
+    avgScore: number,
   }) => {
     setLoading(true);
 
     const res = await fetch("/api/song", {
       method: "POST",
       body: JSON.stringify({
-        userId: userId,
+        userName: userName,
         songName: songName,
         singerName: singerName,
         songLink: songLink,
-        reviewers: reviewer,
-        score: score,
+        reviewers: reviewers,
+        avgScore: avgScore,
         thumbnail: thumbnail,
       }),
     });
@@ -41,7 +41,7 @@ export default function useSong() {
       const body = await res.json();
       throw new Error(body.error);
     }
-    
+    console.log(res);
     router.refresh();
     setLoading(false);
   };
@@ -66,18 +66,18 @@ export default function useSong() {
 
   const putSong = async ({
     reviewers,
-    score,
+    avgScore,
   }: {
     reviewers: number,
-    score:number,
+    avgScore:number,
   }) => {
     setLoading(true);
 
     const res = await fetch("/api/song", {
       method: "PUT",
       body: JSON.stringify({
-        reviewers,
-        score,
+        reviewers: reviewers,
+        avgScore: avgScore,
       }),
     });
 

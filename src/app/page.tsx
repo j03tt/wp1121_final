@@ -24,7 +24,7 @@ export default async function Home({
     // .with(likesSubquery, likedSubquery)
     .select({
       id: songsTable.id,
-      userId: songsTable.userId,
+      userName: songsTable.userName,
       avgScore: songsTable.avgScore,
       reviewers: songsTable.reviewers,
       songName: songsTable.songName,
@@ -43,16 +43,19 @@ export default async function Home({
           <div className="flex h-screen w-full max-w-2xl flex-col overflow-scroll pt-2">
           <h1 className="mb-2 bg-white px-4 text-xl font-bold text-center">Join me!</h1>
           {songs.map((song) => (
-            <Song
-              key={song.id}
-              id={song.id}
-              username={username!}
-              songTitle={song.songName}
-              singer={song.singerName}
-              reviewers={song.reviewers}
-              score={song.avgScore}
-              image={song.image}
-            />
+            <>
+              <h1>hi</h1>
+              <Song
+                key={song.id}
+                id={song.id}
+                username={username!}
+                songTitle={song.songName}
+                singer={song.singerName}
+                reviewers={song.reviewers}
+                score={song.avgScore}
+                image={song.image}
+              />
+            </>
           ))}
         </div>
       </div>

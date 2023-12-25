@@ -43,7 +43,7 @@ export default function Song({
         <div className="flex gap-4">
           <article className="flex grow flex-col">
             <img src={image} alt="Song image Src"/>
-            <p className="font-bold">{songTitle}</p> 
+            <p className="font-bold">{singer} - {songTitle}</p> 
             <div className="my-2 flex items-center justify-between gap-4">  
               score: {score}, {reviewers} people had rated it.
             </div>

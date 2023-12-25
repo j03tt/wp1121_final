@@ -7,13 +7,13 @@ import { songsTable } from "@/db/schema";
 import { desc, like, eq } from "drizzle-orm";
 
 const postSongRequestSchema = z.object({
-  userId: z.number().positive(),
+  userName: z.string().min(1).max(50),
   songName: z.string().min(1).max(50),
   singerName: z.string().min(1).max(50),
   songLink: z.string().min(1).max(150),
-  reviewers: z.number().positive(),
-  score: z.number().positive(),
   thumbnail: z.string().min(1).max(150),
+  reviewers: z.number().positive(),
+  avgScore: z.number().positive(),
 }); 
 
 type postSongRequest = z.infer<typeof postSongRequestSchema>;
@@ -21,12 +21,13 @@ type postSongRequest = z.infer<typeof postSongRequestSchema>;
 const putSongRequestSchema = z.object({
   songId: z.number().positive(),
   reviewers: z.number().positive(),
-  score: z.number().positive(),
+  avgScore: z.number().positive(),
 }); 
 
 type putSongRequest = z.infer<typeof putSongRequestSchema>;
 
 export async function POST(request: NextRequest) {
+  console.log("Hello!");
   const data = await request.json();
 
   try {
@@ -35,15 +36,15 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "Invalid request" }, { status: 400 });
   }
 
-  const { userId, songName, singerName, songLink, reviewers, score, thumbnail } = data as postSongRequest;
-
+  const { userName, songName, singerName, songLink, thumbnail, reviewers, avgScore } = data as postSongRequest;
+  
   try {
     
     await db
       .insert(songsTable)
       .values({
-        userId: userId,
-        avgScore: score.toString(),
+        userName: userName,
+        avgScore: avgScore.toString(),
         reviewers: reviewers,
         songName: songName,
         singerName: singerName,
@@ -63,23 +64,21 @@ export async function POST(request: NextRequest) {
 export async function GET(){
   // console.log("Hello!")
   try {
-    const [song] = await db
+    const songs = await db
       .select({
-        userId: songsTable.userId,
+        userName: songsTable.userName,
         songId: songsTable.id,
         songName: songsTable.songName,
         singerName: songsTable.singerName,
         songLink: songsTable.songLink,
         thumbnail: songsTable.thumbnail,
         reviewer: songsTable.reviewers,
-        score: songsTable.avgScore,
+        avgScore: songsTable.avgScore,
       })
       .from(songsTable)
       .orderBy(desc(songsTable.createdAt))
-      .limit(1)
-      .execute()
 
-    return NextResponse.json(song);
+    return NextResponse.json(songs);
   } catch (error) {
     console.error(error);
     return NextResponse.json({ error: "Something went wrong" }, { status: 500 });
@@ -95,7 +94,7 @@ export async function PUT(request: NextRequest) {
     return NextResponse.json({ error: "Invalid request" }, { status: 400 });
   }
 
-  const { songId, reviewers, score } = data as putSongRequest;
+  const { songId, reviewers, avgScore } = data as putSongRequest;
 
   try {
     
@@ -103,7 +102,7 @@ export async function PUT(request: NextRequest) {
       .update(songsTable)
       .set({
         reviewers,
-        avgScore: score.toString(),
+        avgScore: avgScore.toString(),
       })
       .where(eq(songsTable.id, songId))
       .execute();
