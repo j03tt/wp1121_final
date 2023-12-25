@@ -2,27 +2,27 @@ import { useState } from "react";
 
 import { useRouter } from "next/navigation";
 
-export default function useComment() {
+export default function useScore() {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
 
-  const postComment = async ({
+  const postScore = async ({
     songId, 
-    userName, 
-    content,
+    userId, 
+    score,
   }: {
     songId: number, 
-    userName: string, 
-    content: string,
+    userId: number, 
+    score: string,
   }) => {
     setLoading(true);
 
-    const res = await fetch("/api/comment", {
+    const res = await fetch("/api/score", {
       method: "POST",
       body: JSON.stringify({
         songId, 
-        userName, 
-        content,
+        userId, 
+        score,
       }),
     });
 
@@ -34,18 +34,21 @@ export default function useComment() {
     setLoading(false);
   };
 
-  const deleteComment = async ({
-    commentId,
+  const deleteScore = async ({
+    songId,
+    userId,
   }: {
-    commentId: number,
+    songId: number,
+    userId: number,
   }) => {
     if (loading) return;
 
     setLoading(true);
-    const res = await fetch("/api/comment", {
+    const res = await fetch("/api/score", {
       method: "DELETE",
       body: JSON.stringify({
-        commentId,
+        songId,
+        userId,
       }),
     });
 
@@ -59,8 +62,8 @@ export default function useComment() {
   };
 
   return {
-    postComment,
-    deleteComment,
+    postScore,
+    deleteScore,
     loading,
   };
 }

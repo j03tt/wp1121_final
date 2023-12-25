@@ -68,7 +68,7 @@ export const scoresTable = pgTable(
     userId: integer("user_id") // id of the song in songsTable
       .notNull()
       .references(() => usersTable.id, { onDelete: "cascade", onUpdate: "cascade"}),
-    score: integer("score").notNull(), // user score for this song
+    score: numeric("score", { precision: 10, scale: 2 }).notNull(), // user score for this song
     createdAt: timestamp("created_at").default(sql`now()`), // when the score be graded
   },
   (table) => ({
@@ -87,14 +87,14 @@ export const commentsTable = pgTable(
     songId: integer("song_id")  // which song be comment
       .notNull()
       .references(() => songsTable.id, { onDelete: "cascade", onUpdate: "cascade" }),
-    userId: integer("user_id")  // who comment
+    userName: varchar("user_name")  // who comment
       .notNull()
-      .references(() => usersTable.id, { onDelete: "cascade", onUpdate: "cascade" }),
+      .references(() => usersTable.name, { onDelete: "cascade", onUpdate: "cascade" }),
     content: varchar("content", { length: 300 }), // content of comments
     createdAt: timestamp("created_at").default(sql`now()`), // when comments be maked
   },
   (table) => ({
-    userNameIndex: index("user_name_index").on(table.userId),
+    userNameIndex: index("user_name_index").on(table.userName),
     songIdIndex: index("song_id_index").on(table.songId),
     contentIndex: index("content_index").on(table.content),
     createdAtIndex: index("created_at_index").on(table.createdAt),

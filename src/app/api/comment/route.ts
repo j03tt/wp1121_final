@@ -9,7 +9,7 @@ import { da } from "@faker-js/faker";
 
 const postCommentRequestSchema = z.object({
   songId: z.number().positive(),
-  userId: z.number().positive(),
+  userName: z.string().min(1).max(50),
   content: z.string().min(1).max(300),
 }); 
 
@@ -31,14 +31,14 @@ export async function POST(request: NextRequest){
     return NextResponse.json({ error : "Invalid request."} );
   }
 
-  const { songId, userId, content } = data as postCommentRequest;
+  const { songId, userName, content } = data as postCommentRequest;
 
   try{
     await db
       .insert(commentsTable)
       .values({
         songId,
-        userId,
+        userName,
         content
       })
   }catch(error){
