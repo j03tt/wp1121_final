@@ -45,9 +45,33 @@ export default CredentialsProvider({
       .from(usersTable)
       .where(eq(usersTable.email, validatedCredentials.email.toLowerCase()))
       .execute();
+
+    if (existedUser && name) {
+      console.log("The email has been registered.");
+      return null;
+    }
+    
+    // sign up
     if (!existedUser) {
+      // no username
       if (!name) {
         console.log("Name is required.");
+        return null;
+      }
+      // username has been registered
+      const [existedUserName] = await db
+        .select({
+          id: usersTable.displayId,
+          name: usersTable.name,
+          email: usersTable.email,
+          provider: usersTable.provider,
+          hashedPassword: usersTable.password,
+        })
+        .from(usersTable)
+        .where(eq(usersTable.name, name))
+        .execute();
+      if (existedUserName) {
+        console.log("The username has been registered.");
         return null;
       }
 
