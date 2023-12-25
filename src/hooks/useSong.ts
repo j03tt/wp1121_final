@@ -41,7 +41,7 @@ export default function useSong() {
       const body = await res.json();
       throw new Error(body.error);
     }
-    
+    console.log(res);
     router.refresh();
     setLoading(false);
   };

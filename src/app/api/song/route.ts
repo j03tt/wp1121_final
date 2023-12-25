@@ -11,9 +11,9 @@ const postSongRequestSchema = z.object({
   songName: z.string().min(1).max(50),
   singerName: z.string().min(1).max(50),
   songLink: z.string().min(1).max(150),
+  thumbnail: z.string().min(1).max(150),
   reviewers: z.number().positive(),
   avgScore: z.number().positive(),
-  thumbnail: z.string().min(1).max(150),
 }); 
 
 type postSongRequest = z.infer<typeof postSongRequestSchema>;
@@ -27,6 +27,7 @@ const putSongRequestSchema = z.object({
 type putSongRequest = z.infer<typeof putSongRequestSchema>;
 
 export async function POST(request: NextRequest) {
+  console.log("Hello!");
   const data = await request.json();
 
   try {
@@ -35,8 +36,8 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "Invalid request" }, { status: 400 });
   }
 
-  const { userName, songName, singerName, songLink, reviewers, avgScore, thumbnail } = data as postSongRequest;
-
+  const { userName, songName, singerName, songLink, thumbnail, reviewers, avgScore } = data as postSongRequest;
+  
   try {
     
     await db
