@@ -16,7 +16,7 @@ export const usersTable = pgTable(
   {
     id: serial("id").primaryKey(),
     displayId: uuid("display_id").defaultRandom().notNull().unique(),
-    name: varchar("user_name", { length: 50 }).notNull(), // user name
+    name: varchar("user_name", { length: 50 }).notNull().unique(), // user name
     email: varchar("email", { length: 100 }).notNull().unique(), // user email 
     password: varchar("password", { length: 100 }), // user password
     provider: varchar("provider", { length: 100, enum: ["github", "credentials"] }) //provider
@@ -35,19 +35,19 @@ export const songsTable = pgTable(
   "songs",
   {
     id: serial("id").primaryKey(),
-    userId: integer("user_id") // name of people who upload the song
+    userName: varchar("user_name", { length: 50 }) // name of people who upload the song
       .notNull()
-      .references(() => usersTable.id, { onDelete: "cascade", onUpdate: "cascade"}),
-    avgScore: numeric("average_score", { precision: 10, scale: 2 }).notNull(), // the average score of song
-    reviewers: integer("reviewers").notNull(), // the number of people who score the song
+      .references(() => usersTable.name, { onDelete: "cascade", onUpdate: "cascade"}),
     songName: varchar("song_name", { length: 50 }).notNull(), // name of song
     singerName: varchar("singer_name", { length: 50 }).notNull(), // name of singer
     songLink: varchar("song_link", { length: 150 }).notNull(), // link of song
     createdAt: timestamp("created_at").default(sql`now()`), // time that song be uploaded
+    avgScore: numeric("average_score", { precision: 10, scale: 2 }).notNull(), // the average score of song
+    reviewers: integer("reviewers").notNull(), // the number of people who score the song
     thumbnail: varchar("thumbnail", { length: 150 }).notNull(), // link of song's thumbnail
   },
   (table) => ({
-    userNameIndex: index("user_name_index").on(table.userId),
+    userNameIndex: index("user_name_index").on(table.userName),
     songNameIndex: index("song_name_index").on(table.songName),
     singerNameIndex: index("singer_name_index").on(table.singerName),
     songLinkIndex: index("song_link_index").on(table.songLink),
