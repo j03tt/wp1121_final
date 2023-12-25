@@ -6,22 +6,22 @@ import { db } from "@/db";
 import { scoresTable } from "@/db/schema";
 import { and, eq } from "drizzle-orm";
 
-const postCommentRequestSchema = z.object({
+const postScoreRequestSchema = z.object({
   songId: z.number().positive(),
   userId: z.number().positive(),
   userName: z.string().min(1).max(50),
   score: z.number(),
 }); 
 
-type postCommentRequest = z.infer<typeof postCommentRequestSchema>;
+type postScoreRequest = z.infer<typeof postScoreRequestSchema>;
 
-const putSongRequestSchema = z.object({
+const putScoreRequestSchema = z.object({
   songId: z.number().positive(),
   userName: z.string().min(1).max(50),
   score: z.number().positive(),
 }); 
 
-type putSongRequest = z.infer<typeof putSongRequestSchema>;
+type putScoreRequest = z.infer<typeof putScoreRequestSchema>;
 
 const deleteCommentRequestSchema = z.object({
   songId: z.number().positive(),
@@ -35,12 +35,12 @@ export async function POST(request: NextRequest){
   const data = await request.json();
 
   try{
-    postCommentRequestSchema.parse(data);
+    postScoreRequestSchema.parse(data);
   }catch(error){
     return NextResponse.json({ error : "Invalid request."} );
   }
 
-  const { songId, userId, userName ,score } = data as postCommentRequest;
+  const { songId, userId, userName ,score } = data as postScoreRequest;
 
   try{
     await db
@@ -97,12 +97,12 @@ export async function PUT(request: NextRequest) {
   const data = await request.json();
 
   try {
-    putSongRequestSchema.parse(data);
+    putScoreRequestSchema.parse(data);
   } catch (error) {
     return NextResponse.json({ error: "Invalid request" }, { status: 400 });
   }
 
-  const { songId, userName, score } = data as putSongRequest;
+  const { songId, userName, score } = data as putScoreRequest;
 
   try {
     

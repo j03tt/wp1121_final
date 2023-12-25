@@ -92,6 +92,7 @@ export default function useScore() {
   return {
     postScore,
     deleteScore,
+    putScore,
     loading,
   };
 }
