@@ -5,11 +5,11 @@ import { z } from "zod";
 import { db } from "@/db";
 import { scoresTable } from "@/db/schema";
 import { and, eq } from "drizzle-orm";
-import { da } from "@faker-js/faker";
 
 const postCommentRequestSchema = z.object({
   songId: z.number().positive(),
   userId: z.number().positive(),
+  userName: z.string().min(1).max(50),
   score: z.number(),
 }); 
 
@@ -19,6 +19,7 @@ type postCommentRequest = z.infer<typeof postCommentRequestSchema>;
 const deleteCommentRequestSchema = z.object({
   songId: z.number().positive(),
   userId:z.number().positive(),
+  userName: z.string().min(1).max(50),
 }); 
 
 type deleteCommentRequest = z.infer<typeof deleteCommentRequestSchema>;
@@ -32,7 +33,7 @@ export async function POST(request: NextRequest){
     return NextResponse.json({ error : "Invalid request."} );
   }
 
-  const { songId, userId, score } = data as postCommentRequest;
+  const { songId, userId, userName ,score } = data as postCommentRequest;
 
   try{
     await db
@@ -40,6 +41,7 @@ export async function POST(request: NextRequest){
       .values({
         songId,
         userId,
+        userName,
         score: score.toString(),
       })
   }catch(error){
@@ -61,7 +63,7 @@ export async function DELETE(request: NextRequest) {
     return NextResponse.json({ error: "Invalid request" }, { status: 400 });
   }
 
-  const { songId, userId } = data as deleteCommentRequest;
+  const { songId, userId,userName } = data as deleteCommentRequest;
 
   try {
     await db
@@ -69,6 +71,7 @@ export async function DELETE(request: NextRequest) {
       .where(
         and(
           eq(scoresTable.songId, songId),
+          eq(scoresTable.userName, userName),
           eq(scoresTable.userId, userId),
         ),
       )

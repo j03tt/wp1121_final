@@ -68,6 +68,9 @@ export const scoresTable = pgTable(
     userId: integer("user_id") // id of the song in songsTable
       .notNull()
       .references(() => usersTable.id, { onDelete: "cascade", onUpdate: "cascade"}),
+    userName: varchar("user_name", { length: 50 }) // id of the song in songsTable
+      .notNull()
+      .references(() => usersTable.name, { onDelete: "cascade", onUpdate: "cascade"}),
     score: numeric("score", { precision: 10, scale: 2 }).notNull(), // user score for this song
     createdAt: timestamp("created_at").default(sql`now()`), // when the score be graded
   },
@@ -76,6 +79,7 @@ export const scoresTable = pgTable(
     reviewersIndex: index("reviewers_index").on(table.userId),
     scoreIndex: index("score_index").on(table.score),
     createdAtIndex: index("created_at_index").on(table.createdAt),
+    userNameIndex: index("user_name_index").on(table.userName),
     constraint: unique("song_score").on(table.songId, table.userId)
   }),
 )

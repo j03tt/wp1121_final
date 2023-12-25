@@ -8,11 +8,11 @@ export default function useScore() {
 
   const postScore = async ({
     songId, 
-    userId, 
+    userName, 
     score,
   }: {
     songId: number, 
-    userId: number, 
+    userName: string, 
     score: string,
   }) => {
     setLoading(true);
@@ -21,7 +21,7 @@ export default function useScore() {
       method: "POST",
       body: JSON.stringify({
         songId, 
-        userId, 
+        userName, 
         score,
       }),
     });
@@ -36,10 +36,10 @@ export default function useScore() {
 
   const deleteScore = async ({
     songId,
-    userId,
+    userName,
   }: {
     songId: number,
-    userId: number,
+    userName: string,
   }) => {
     if (loading) return;
 
@@ -48,7 +48,7 @@ export default function useScore() {
       method: "DELETE",
       body: JSON.stringify({
         songId,
-        userId,
+        userName,
       }),
     });
 
