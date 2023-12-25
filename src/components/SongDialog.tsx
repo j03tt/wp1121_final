@@ -50,9 +50,9 @@ export default function SongDialog({open, onClose} : actDiaProp) {
         songName : title,
         singerName : singer,
         songLink : link,
+        thumbnail : src,
         reviewers : 0,
         avgScore : 0,
-        thumbnail : src,
       });
     } catch(e) {
       console.log(e);
