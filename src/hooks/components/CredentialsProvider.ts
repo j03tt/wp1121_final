@@ -30,7 +30,7 @@ export default CredentialsProvider({
     try {
       validatedCredentials = authSchema.parse(credentials);
     } catch (error) {
-      return null;
+      throw new Error("Invalid credentials. Please check your input.");
     }
     const { email, name, password } = validatedCredentials;
 
@@ -47,8 +47,8 @@ export default CredentialsProvider({
       .execute();
 
     if (existedUser && name) {
-      console.log("The email has been registered.");
-      return null;
+      throw new Error("The email has already been registered.");
+      // return null;
     }
     
     // sign up
@@ -71,8 +71,8 @@ export default CredentialsProvider({
         .where(eq(usersTable.name, name))
         .execute();
       if (existedUserName) {
-        console.log("The username has been registered.");
-        return null;
+        throw new Error("The username has already been registered.");
+        // return null;
       }
 
       const hashedPassword = await bcrypt.hash(password, 10); // change this line
@@ -96,18 +96,18 @@ export default CredentialsProvider({
 
     // Sign in
     if (existedUser.provider !== "credentials") {
-      console.log(`The email has registered with ${existedUser.provider}.`);
-      return null;
+      throw new Error(`The email has registered with ${existedUser.provider}.`);
+      // return null;
     }
     if (!existedUser.hashedPassword) {
-      console.log("The email has registered with social account.");
-      return null;
+      throw new Error("The email has registered with a social account.");
+      // return null;
     }
     const isValid = await bcrypt.compare(password, existedUser.hashedPassword); // change this line
 
     if (!isValid) {
-      console.log("Wrong password. Try again.");
-      return null;
+      throw new Error("Wrong password. Try again.");
+      // return null;
     }
     return {
       email: existedUser.email,
