@@ -70,9 +70,9 @@ export default async function ProfilePage({
             score: scoresTable.score,
         })
         .from(scoresTable)
-        .innerJoin(usersTable, eq(usersTable.id, scoresTable.userId))
+        .innerJoin(usersTable, eq(usersTable.name, scoresTable.userName))
         .innerJoin(songsTable, eq(songsTable.id, scoresTable.songId))
-        .where(eq(scoresTable.userId, userData.id))
+        .where(eq(scoresTable.userName, userData.name))
         .execute();
     // if (!reviewedSongsData) console.log("# reviewed songs: 0 or null");
 
