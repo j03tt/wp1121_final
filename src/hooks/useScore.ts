@@ -13,7 +13,7 @@ export default function useScore() {
   }: {
     songId: number, 
     userName: string, 
-    score: string,
+    score: number,
   }) => {
     setLoading(true);
 
