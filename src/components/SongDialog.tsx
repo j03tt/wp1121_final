@@ -16,6 +16,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { validateTimeFormat, validateTime, validateTimeDiff } from "@/lib/utils";
+import { useSession } from "next-auth/react";
 
 type actDiaProp = {
   open: boolean;
@@ -28,7 +29,8 @@ export default function SongDialog({open, onClose} : actDiaProp) {
   const linkInputRef = useRef<HTMLInputElement>(null);
   const srcInputRef = useRef<HTMLInputElement>(null);
   const { postSong, getSong } = useSong();
-  const {username} = useUserInfo();
+  const {data: session} = useSession();
+  const username = session?.user?.name;
   const router = useRouter();
 
   const handleSave = async () => {
@@ -44,24 +46,17 @@ export default function SongDialog({open, onClose} : actDiaProp) {
 
     try {
       await postSong({
-        userId: username,
+        userName: username,
         songName : title,
         singerName : singer,
         songLink : link,
-        reviewer : 0,
-        score : 0,
+        reviewers : 0,
+        avgScore : 0,
         thumbnail : src,
       });
     } catch(e) {
       console.log(e);
     }
-
-    // const crack = await getSong()
-    // await likeTweet({
-    //   tweetId: crack.id,
-    //   userHandle: handle,
-    // })
-    // router.push(`/tweet/${crack.id}/?username=${username}&handle=${handle}`)
     onClose()
     return ;
   };
