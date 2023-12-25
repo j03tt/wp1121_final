@@ -37,21 +37,12 @@ function AuthForm() {
       }
     }
     
-    const result = await signIn("credentials", {
+    signIn("credentials", {
       email,
       name,
       password,
       callbackUrl: `${publicEnv.NEXT_PUBLIC_BASE_URL}`,
-      redirect: false,
     });
-
-    if (!result || result.error) {
-      if (isSignUp)
-        alert("Email or Name has been taken.\nConfirmed Password must match Password.\nTry again.");
-      else
-        alert("Wrong Email or Password. Try again.");
-      return;
-    }
   };
 
   const handleCancel = () => {
