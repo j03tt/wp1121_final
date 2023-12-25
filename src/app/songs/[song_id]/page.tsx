@@ -63,6 +63,7 @@ export default async function SongPage({
     .from(scoresTable)
     .where(and(eq(scoresTable.songId, song_id_num), eq(scoresTable.userName, username)))
     .execute()
+  console.log("owoowowowowowow:"+username)
 
   var replies = await db
     .select({
