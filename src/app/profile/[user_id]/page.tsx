@@ -2,12 +2,13 @@ import useAuth from "@/hooks/useAuth";
 
 import { db } from "@/db";
 import { usersTable, songsTable, scoresTable } from "@/db/schema";
-import { eq, and } from "drizzle-orm";
+import { eq } from "drizzle-orm";
 
 import { publicEnv } from "@/lib/env/public";
 import { redirect } from "next/navigation";
 
 import HeaderBar from "@/components/HeaderBar";
+import SongInput from "@/components/SongInput";
 import { Separator } from "@/components/ui/separator";
 
 type ProfilePageProps = {
@@ -34,44 +35,46 @@ export default async function ProfilePage({
             display_id: usersTable.displayId,
             name: usersTable.name,
             email: usersTable.email,
-            bio: usersTable.bio, // [todo: edit bio]
+            // bio: usersTable.bio, // [todo: edit bio]
         })
         .from(usersTable)
         .where(eq(usersTable.displayId, user_id))
         .execute();
     if (!userData) errorRedirect();
-    console.log(userData);
+    // console.log(userData);
 
-    const [uploadedSongsData] = await db
+    const uploadedSongsData = await db
         .select({
-            user_id: songsTable.userId,
+            // user_name: songsTable.userName,
             song_id: songsTable.id,
             song_name: songsTable.songName,
             singer_name: songsTable.singerName,
             song_link: songsTable.songLink,
-            created_at: songsTable.createdAt,
-            thumbnail: songsTable.thumbnail,
+            score: songsTable.avgScore,
+            // created_at: songsTable.createdAt,
+            // thumbnail: songsTable.thumbnail,
         })
         .from(songsTable)
-        .where(eq(songsTable.userId, userData.id))
+        .where(eq(songsTable.userName, userData.name))
         .execute();
-    if (!uploadedSongsData) console.log("# uploaded songs: 0 or null");
+    // if (!uploadedSongsData) console.log("# uploaded songs: 0 or null");
 
-    const [reviewedSongsData] = await db
+    const reviewedSongsData = await db
         .select({
-            user_id: scoresTable.userId,
-            song_id: scoresTable.songId,
-            score: scoresTable.score,
-            created_at: scoresTable.createdAt,
+            // user_id: usersTable.id,
+            song_id: songsTable.id,
+            // created_at: scoresTable.createdAt,
             song_name: songsTable.songName,
             singer_name: songsTable.singerName,
             song_link: songsTable.songLink,
+            score: scoresTable.score,
         })
         .from(scoresTable)
-        .innerJoin(songsTable, and(eq(songsTable.userId, scoresTable.userId), eq(songsTable.id, scoresTable.songId)))
+        .innerJoin(usersTable, eq(usersTable.id, scoresTable.userId))
+        .innerJoin(songsTable, eq(songsTable.id, scoresTable.songId))
         .where(eq(scoresTable.userId, userData.id))
         .execute();
-    if (!reviewedSongsData) console.log("# reviewed songs: 0 or null");
+    // if (!reviewedSongsData) console.log("# reviewed songs: 0 or null");
 
 	return (
 		<div className="flex h-screen w-full flex-col overflow-auto pt-2">
@@ -80,27 +83,24 @@ export default async function ProfilePage({
 			<div className="flex flex-row items-start justify-center px-4 mt-4">
                 <div className="p-6 rounded-lg shadow-md w-96">
                     <h2 className="text-2xl font-semibold mb-2">Profile Information</h2>
+                    <Separator />
+                    <div className="mt-4" />
                     <div className="mb-4">
                         <strong>Name:</strong> {userData.name}
                     </div>
                     <div className="mb-4">
                         <strong>Email:</strong> {userData.email}
                     </div>
-                    <div className="mb-4">
-                        <strong>Bio:</strong> {userData.bio}
-                    </div>
                 </div>
                 <div className="p-6 rounded-lg shadow-md w-96">
                     <h2 className="text-2xl font-semibold mb-2">Uploaded Songs</h2>
-                    <div className="mb-4">
-                        singer name - song name
-                    </div>
+                    <Separator />
+                    <SongInput songs={uploadedSongsData} />
                 </div>
                 <div className="p-6 rounded-lg shadow-md w-96">
                     <h2 className="text-2xl font-semibold mb-2">Reviewed Songs</h2>
-                    <div className="mb-4">
-                        singer name - song name
-                    </div>
+                    <Separator />
+                    <SongInput songs={reviewedSongsData} />
                 </div>
             </div>
 		</div>
