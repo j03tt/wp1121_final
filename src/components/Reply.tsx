@@ -29,7 +29,7 @@ export default function Reply({
         <div className="flex gap-4">
           <article className="flex grow flex-col">
             <p className="font-bold">
-              @{authorName} wrote at ( 
+              {authorName} wrote at ( 
               <time className="ml-2 font-normal text-gray-400">
                 <TimeText date={createdAt} format="h:mm A · D MMM YYYY" />
               </time>
