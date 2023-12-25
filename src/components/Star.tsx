@@ -21,6 +21,7 @@ export default function RateStar({
   const username = session?.user?.name;
   const { putScore, postScore, loading } = useScore();
   const { putSong, getSong } = useSong();
+  console.log(userScore)
   const score = (userScore)? parseInt(userScore) : 0
   const current = parseFloat(CurrentScore)
   const handleReply = async (index:string) => {

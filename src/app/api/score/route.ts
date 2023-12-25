@@ -8,9 +8,8 @@ import { and, eq } from "drizzle-orm";
 
 const postScoreRequestSchema = z.object({
   songId: z.number().positive(),
-  userId: z.number().positive(),
   userName: z.string().min(1).max(50),
-  score: z.number(),
+  score: z.number().positive(),
 }); 
 
 type postScoreRequest = z.infer<typeof postScoreRequestSchema>;
@@ -23,13 +22,13 @@ const putScoreRequestSchema = z.object({
 
 type putScoreRequest = z.infer<typeof putScoreRequestSchema>;
 
-const deleteCommentRequestSchema = z.object({
+const deleteScoreRequestSchema = z.object({
   songId: z.number().positive(),
   userId:z.number().positive(),
   userName: z.string().min(1).max(50),
 }); 
 
-type deleteCommentRequest = z.infer<typeof deleteCommentRequestSchema>;
+type deleteScoreRequest = z.infer<typeof deleteScoreRequestSchema>;
 
 export async function POST(request: NextRequest){
   const data = await request.json();
@@ -40,14 +39,13 @@ export async function POST(request: NextRequest){
     return NextResponse.json({ error : "Invalid request."} );
   }
 
-  const { songId, userId, userName ,score } = data as postScoreRequest;
+  const { songId, userName ,score } = data as postScoreRequest;
 
   try{
     await db
       .insert(scoresTable)
       .values({
         songId,
-        userId,
         userName,
         score: score.toString(),
       })
@@ -65,12 +63,12 @@ export async function DELETE(request: NextRequest) {
   const data = await request.json();
 
   try {
-    deleteCommentRequestSchema.parse(data);
+    deleteScoreRequestSchema.parse(data);
   } catch (error) {
     return NextResponse.json({ error: "Invalid request" }, { status: 400 });
   }
 
-  const { songId, userId,userName } = data as deleteCommentRequest;
+  const { songId, userName } = data as deleteScoreRequest;
 
   try {
     await db
@@ -79,7 +77,6 @@ export async function DELETE(request: NextRequest) {
         and(
           eq(scoresTable.songId, songId),
           eq(scoresTable.userName, userName),
-          eq(scoresTable.userId, userId),
         ),
       )
       .execute();

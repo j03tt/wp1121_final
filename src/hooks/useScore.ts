@@ -16,7 +16,7 @@ export default function useScore() {
     score: number,
   }) => {
     setLoading(true);
-
+    
     const res = await fetch("/api/score", {
       method: "POST",
       body: JSON.stringify({
@@ -30,6 +30,7 @@ export default function useScore() {
       const body = await res.json();
       throw new Error(body.error);
     }
+    console.log(res);
     router.refresh();
     setLoading(false);
   };
@@ -71,7 +72,7 @@ export default function useScore() {
     score: number,
   }) => {
     setLoading(true);
-
+    
     const res = await fetch("/api/score", {
       method: "PUT",
       body: JSON.stringify({
@@ -85,6 +86,7 @@ export default function useScore() {
       const body = await res.json();
       throw new Error(body.error);
     }
+    
     router.refresh();
     setLoading(false);
   };
