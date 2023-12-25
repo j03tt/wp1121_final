@@ -19,8 +19,8 @@ export default function useLike() {
     const res = await fetch("/api/like", {
       method: "POST",
       body: JSON.stringify({
-        userId,
-        commentId,
+        userId: userId,
+        commentId: commentId,
       }),
     });
 

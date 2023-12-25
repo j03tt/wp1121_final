@@ -2,7 +2,7 @@ import { useState } from "react";
 
 import { useRouter } from "next/navigation";
 
-export default function useLike() {
+export default function useDisLike() {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
 
