@@ -32,9 +32,9 @@ export default function useSong() {
         songName: songName,
         singerName: singerName,
         songLink: songLink,
+        thumbnail: thumbnail,
         reviewers: reviewers,
         avgScore: avgScore,
-        thumbnail: thumbnail,
       }),
     });
     if (!res.ok) {
