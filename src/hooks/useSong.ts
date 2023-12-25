@@ -65,9 +65,11 @@ export default function useSong() {
   };
 
   const putSong = async ({
+    songId,
     reviewers,
     avgScore,
   }: {
+    songId: number,
     reviewers: number,
     avgScore:number,
   }) => {
@@ -76,6 +78,7 @@ export default function useSong() {
     const res = await fetch("/api/song", {
       method: "PUT",
       body: JSON.stringify({
+        songId: songId,
         reviewers: reviewers,
         avgScore: avgScore,
       }),
