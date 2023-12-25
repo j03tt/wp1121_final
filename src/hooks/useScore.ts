@@ -61,6 +61,34 @@ export default function useScore() {
     setLoading(false);
   };
 
+  const putScore = async ({
+    songId,
+    userName,
+    score,
+  }: {
+    songId: number,
+    userName: string,
+    score: number,
+  }) => {
+    setLoading(true);
+
+    const res = await fetch("/api/score", {
+      method: "PUT",
+      body: JSON.stringify({
+        songId,
+        userName,
+        score,
+      }),
+    });
+
+    if (!res.ok) {
+      const body = await res.json();
+      throw new Error(body.error);
+    }
+    router.refresh();
+    setLoading(false);
+  };
+
   return {
     postScore,
     deleteScore,

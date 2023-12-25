@@ -15,6 +15,13 @@ const postCommentRequestSchema = z.object({
 
 type postCommentRequest = z.infer<typeof postCommentRequestSchema>;
 
+const putSongRequestSchema = z.object({
+  songId: z.number().positive(),
+  userName: z.string().min(1).max(50),
+  score: z.number().positive(),
+}); 
+
+type putSongRequest = z.infer<typeof putSongRequestSchema>;
 
 const deleteCommentRequestSchema = z.object({
   songId: z.number().positive(),
@@ -86,4 +93,38 @@ export async function DELETE(request: NextRequest) {
   return new NextResponse("OK", { status: 200 });
 }
 
+export async function PUT(request: NextRequest) {
+  const data = await request.json();
+
+  try {
+    putSongRequestSchema.parse(data);
+  } catch (error) {
+    return NextResponse.json({ error: "Invalid request" }, { status: 400 });
+  }
+
+  const { songId, userName, score } = data as putSongRequest;
+
+  try {
+    
+    await db
+      .update(scoresTable)
+      .set({
+        score: score.toString(),
+      })
+      .where(
+        and(
+          eq(scoresTable.songId, songId),
+          eq(scoresTable.userName, userName),
+        ),
+      )
+      .execute();
+  } catch (error) {
+    return NextResponse.json(
+      { error: "Something went wrong" },
+      { status: 500 },
+    );
+  }
+
+  return new NextResponse("OK", { status: 200 });
+}
 
