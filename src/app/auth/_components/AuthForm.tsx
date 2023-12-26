@@ -26,10 +26,16 @@ function AuthForm() {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
+    if (password.length < 8) {
+      alert("Invalid Input! Password needs to be at least 8 characters.");
+      return;
+    }
+
     if (!email || !password) {
       alert("Invalid Input!");
       return;
     }
+    
     if (isSignUp) {
       if (!name || !confirmPassword) {
         alert("Invalid Input!");

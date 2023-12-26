@@ -38,7 +38,7 @@ export default async function ProfilePage({
             display_id: usersTable.displayId,
             name: usersTable.name,
             email: usersTable.email,
-            // bio: usersTable.bio, // [todo: edit bio]
+            bio: usersTable.bio,
         })
         .from(usersTable)
         .where(eq(usersTable.displayId, user_id))
@@ -92,30 +92,38 @@ export default async function ProfilePage({
 		<div className="flex h-screen w-full flex-col overflow-auto pt-2">
 			<HeaderBar />
 			<Separator />
-			<div className="flex flex-row items-start justify-center px-4 mt-4">
-                <Link className="px-4 mt-6" href={{ pathname: "/" }}>
-                    <ArrowLeft size={32} />
-                </Link>
-                <div className="p-6 rounded-lg shadow-md w-96">
-                    <h2 className="text-2xl font-semibold mb-2">Profile Information</h2>
-                    <Separator />
-                    <div className="mt-4" />
-                    <div className="mb-4">
-                        <strong>Name:</strong> {userData.name}
-                    </div>
-                    <div className="mb-4">
-                        <strong>Email:</strong> {userData.email}
-                    </div>
+            <div className="flex-col">
+                <div className="mb-2 flex items-center w-1/2 gap-8 px-4">
+                    <Link href={{ pathname: "/" }}>
+                        <ArrowLeft className="mt-4" size={32} />
+                    </Link>
+                    <h1 className="text-3xl mt-4 font-bold text-center">Back to Menu</h1>
                 </div>
-                <div className="p-6 rounded-lg shadow-md w-96">
-                    <h2 className="text-2xl font-semibold mb-2">Uploaded Songs</h2>
-                    <Separator />
-                    <SongInput songs={uploadedSongsDataWithMode} />
-                </div>
-                <div className="p-6 rounded-lg shadow-md w-96">
-                    <h2 className="text-2xl font-semibold mb-2">Reviewed Songs</h2>
-                    <Separator />
-                    <SongInput songs={reviewedSongsDataWithMode} />
+                <div className="flex flex-row items-start justify-center px-4 mt-4">
+                    <div className="p-6 rounded-lg shadow-md w-96">
+                        <h2 className="text-2xl font-semibold mb-2">Profile Information</h2>
+                        <Separator />
+                        <div className="mt-4" />
+                        <div className="mb-4">
+                            <strong>Name:</strong> {userData.name}
+                        </div>
+                        <div className="mb-4">
+                            <strong>Email:</strong> {userData.email}
+                        </div>
+                        <div className="mb-4">
+                            <strong>Bio:</strong> {userData.bio}
+                        </div>
+                    </div>
+                    <div className="p-6 rounded-lg shadow-md w-96">
+                        <h2 className="text-2xl font-semibold mb-2">Uploaded Songs</h2>
+                        <Separator />
+                        <SongInput songs={uploadedSongsDataWithMode} />
+                    </div>
+                    <div className="p-6 rounded-lg shadow-md w-96">
+                        <h2 className="text-2xl font-semibold mb-2">Reviewed Songs</h2>
+                        <Separator />
+                        <SongInput songs={reviewedSongsDataWithMode} />
+                    </div>
                 </div>
             </div>
 		</div>

@@ -59,7 +59,13 @@ export default function Filter(){
       <List
         component="nav"
         aria-label="Device settings"
-        sx={{ bgcolor: '#000000' }}
+        sx={{
+          bgcolor: '#000000',
+          borderRadius: '8px', // Add border radius
+          "&:hover": {
+            cursor: 'pointer',
+          },
+        }}
       >
         <ListItem
           id="lock-button"
@@ -68,10 +74,14 @@ export default function Filter(){
           aria-label="when device is locked"
           aria-expanded={open ? 'true' : undefined}
           onClick={handleClickListItem}
+          sx={{
+            borderRadius: '8px', // Add border radius for hover
+            "&:hover": {
+              backgroundColor: '#333333',
+            },
+          }}
         >
-          <ListItemText
-            primary={options[selectedIndex]}
-          />
+          <ListItemText primary={options[selectedIndex]} />
         </ListItem>
       </List>
       <Menu
