@@ -9,7 +9,6 @@ import LikeButton from "./LikeButton";
 import TimeText from "./TimeText";
 
 type SongProps = {
-  username: string,
   id: number,
   songTitle: string,
   singer: string,
@@ -21,7 +20,6 @@ type SongProps = {
 // note that the Tweet component is also a server component
 // all client side things are abstracted away in other components
 export default function Song({
-    username,
     id,
     songTitle,
     singer,
@@ -35,9 +33,6 @@ export default function Song({
         className="w-1/6 h-1/2 px-4 pt-3 transition-colors hover:bg-gray-700"
         href={{
           pathname: `/songs/${id}`,
-          query: {
-            username,
-          },
         }}
       >
         <div className="flex gap-4">

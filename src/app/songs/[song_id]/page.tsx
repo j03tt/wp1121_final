@@ -28,6 +28,7 @@ export default async function SongPage({
 }: SongPageProps) {
   const errorRedirect = () => {
     const params = new URLSearchParams();
+    console.log("uwu", song_id)
     redirect(`/?${params.toString()}`);
   };
   const { auth } = useAuth();

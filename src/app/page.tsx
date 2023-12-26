@@ -51,7 +51,6 @@ export default async function Home({
               <Song
                 key={song.id}
                 id={song.id}
-                username={username!}
                 songTitle={song.songName}
                 singer={song.singerName}
                 reviewers={song.reviewers}
