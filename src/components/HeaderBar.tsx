@@ -2,7 +2,7 @@ import Link from "next/link";
 import { publicEnv } from "@/lib/env/public";
 
 import useAuth from "@/hooks/useAuth";
-
+import Filter from "./Filter";
 import NewSongButton from "@/components/uploadSong";
 import SignInButton from "@/components/SignInButton";
 import SignOutButton from "@/components/SignOutButton";
@@ -19,6 +19,7 @@ export default async function HeaderBar() {
         </Link>
         
         <div className="flex items-center gap-4">
+            <Filter />
         {!session?.user?.id ? (
             <SignInButton />
         ) : (

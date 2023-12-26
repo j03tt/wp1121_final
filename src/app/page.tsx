@@ -2,20 +2,22 @@ import useAuth from "@/hooks/useAuth";
 import Song from "@/components/Song";
 import HeaderBar from "@/components/HeaderBar";
 import SearchBar from "@/components/SearchBar";
+import Filter from "@/components/Filter";
 import { Separator } from "@/components/ui/separator";
 import useUserInfo from "@/hooks/useUserInfo";
-import { eq, desc, isNull, sql, like, notIlike, and} from "drizzle-orm";
+import { eq, asc, desc, isNull, sql, like, notIlike, and} from "drizzle-orm";
 import { db } from "@/db";
 import { likesTable, songsTable, usersTable } from "@/db/schema";
 
 type HomePageProps = {
   searchParams: {
     keyWord?: string;
+    Filter?: string;
   };
 };
 
 export default async function Home({
-  searchParams: { keyWord },
+  searchParams: { keyWord, Filter },
 }: HomePageProps) {
   const { auth } = useAuth();
   const session = await auth();
@@ -33,7 +35,10 @@ export default async function Home({
     })
     .from(songsTable)
     .where((keyWord)? like(songsTable.songName, `%${keyWord}%`) : notIlike(songsTable.songName, `%${keyWord}%`))
-    .orderBy(desc(songsTable.createdAt))
+    .orderBy((!Filter || Filter === "0")? desc(songsTable.createdAt) : 
+             (Filter === "1")? asc(songsTable.createdAt) : 
+             (Filter === "2")? desc(songsTable.avgScore) : 
+             asc(songsTable.avgScore))
     .execute();
   return (
     <div className="flex h-screen w-full flex-col overflow-auto pt-2">
