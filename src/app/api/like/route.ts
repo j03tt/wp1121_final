@@ -7,7 +7,7 @@ import { db } from "@/db";
 import { likesTable } from "@/db/schema";
 
 const likeRequestSchema = z.object({
-  userId: z.number().positive(),
+  userName: z.string().min(1).max(50),
   commentId: z.number().positive(),
 });
 
@@ -23,7 +23,7 @@ export async function GET(request: NextRequest) {
   }
 
   
-  const { userId, commentId } = data as likeRequest;
+  const { userName, commentId } = data as likeRequest;
 
   try {
     
@@ -32,7 +32,7 @@ export async function GET(request: NextRequest) {
       .from(likesTable)
       .where(
         and(
-          eq(likesTable.userId, userId),
+          eq(likesTable.userName, userName),
           eq(likesTable.commentId, commentId),
         ),
       )
@@ -57,13 +57,13 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "Invalid request" }, { status: 400 });
   }
 
-  const { userId, commentId } = data as likeRequest;
+  const { userName, commentId } = data as likeRequest;
 
   try {
     await db
       .insert(likesTable)
       .values({
-        userId,
+        userName,
         commentId,
       })
       .onConflictDoNothing()
@@ -87,14 +87,14 @@ export async function DELETE(request: NextRequest) {
     return NextResponse.json({ error: "Invalid request" }, { status: 400 });
   }
 
-  const { userId, commentId } = data as likeRequest;
+  const { userName, commentId } = data as likeRequest;
 
   try {
     await db
       .delete(likesTable)
       .where(
         and(
-          eq(likesTable.userId, userId),
+          eq(likesTable.userName, userName),
           eq(likesTable.commentId, commentId),
         ),
       )

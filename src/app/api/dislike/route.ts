@@ -7,7 +7,7 @@ import { db } from "@/db";
 import { dislikesTable } from "@/db/schema";
 
 const dislikeRequestSchema = z.object({
-  userId: z.number().positive(),
+  userName: z.string().min(1).max(50),
   commentId: z.number().positive(),
 });
 
@@ -23,7 +23,7 @@ export async function GET(request: NextRequest) {
   }
 
   
-  const { userId, commentId } = data as dislikeRequest;
+  const { userName, commentId } = data as dislikeRequest;
 
   try {
     
@@ -32,7 +32,7 @@ export async function GET(request: NextRequest) {
       .from(dislikesTable)
       .where(
         and(
-          eq(dislikesTable.userId, userId),
+          eq(dislikesTable.userName, userName),
           eq(dislikesTable.commentId, commentId),
         ),
       )
@@ -57,13 +57,13 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "Invalid request" }, { status: 400 });
   }
 
-  const { userId, commentId } = data as dislikeRequest;
+  const { userName, commentId } = data as dislikeRequest;
 
   try {
     await db
       .insert(dislikesTable)
       .values({
-        userId,
+        userName,
         commentId,
       })
       .onConflictDoNothing()
@@ -87,14 +87,14 @@ export async function DELETE(request: NextRequest) {
     return NextResponse.json({ error: "Invalid request" }, { status: 400 });
   }
 
-  const { userId, commentId } = data as dislikeRequest;
+  const { userName, commentId } = data as dislikeRequest;
 
   try {
     await db
       .delete(dislikesTable)
       .where(
         and(
-          eq(dislikesTable.userId, userId),
+          eq(dislikesTable.userName, userName),
           eq(dislikesTable.commentId, commentId),
         ),
       )

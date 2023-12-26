@@ -105,19 +105,19 @@ export const likesTable = pgTable(
   "like",
   {
     id: serial("id").primaryKey(),
-    userId: integer("user_id")
+    userName: varchar("user_name", { length: 50 })
       .notNull()
-      .references(() => usersTable.id, { onDelete: "cascade",onUpdate: "cascade" }),
+      .references(() => usersTable.name, { onDelete: "cascade",onUpdate: "cascade" }),
     commentId: integer("comment_id")
       .notNull()
       .references(() => commentsTable.id, { onDelete: "cascade", onUpdate: "cascade" }),
     createdAt: timestamp("created_at").default(sql`now()`),
   },
   (table) => ({
-    userIdIndex: index("user_id_index").on(table.userId),
+    userNameIndex: index("user_id_index").on(table.userName),
     commentIdIndex: index("comment_id_index").on(table.commentId),
     createdAtIndex: index("created_at_index").on(table.createdAt),
-    constraint: unique("likes").on(table.commentId, table.userId),
+    constraint: unique("likes").on(table.commentId, table.userName),
   }),
 );
 
@@ -125,19 +125,19 @@ export const dislikesTable = pgTable(
   "dislike",
   {
     id: serial("id").primaryKey(),
-    userId: integer("user_id")
+    userName: varchar("user_name", { length: 50 })
       .notNull()
-      .references(() => usersTable.id, { onDelete: "cascade", onUpdate: "cascade"}),
+      .references(() => usersTable.name, { onDelete: "cascade",onUpdate: "cascade" }),
     commentId: integer("comment_id")
       .notNull()
       .references(() => commentsTable.id, { onDelete: "cascade", onUpdate: "cascade" }),
     createdAt: timestamp("created_at").default(sql`now()`),
   },
   (table) => ({
-    userIdIndex: index("user_id_index").on(table.userId),
+    userNameIndex: index("user_id_index").on(table.userName),
     commentIdIndex: index("comment_id_index").on(table.commentId),
     createdAtIndex: index("created_at_index").on(table.createdAt),
-    constraint: unique("dislikes").on(table.commentId, table.userId),
+    constraint: unique("dislikes").on(table.commentId, table.userName),
   }),
 );
 

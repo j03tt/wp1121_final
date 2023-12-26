@@ -7,10 +7,10 @@ export default function useLike() {
   const router = useRouter();
 
   const postLike = async ({
-    userId,
+    userName,
     commentId,
   }: {
-    userId: number;
+    userName: string;
     commentId: number;
   }) => {
     if (loading) return;
@@ -19,7 +19,7 @@ export default function useLike() {
     const res = await fetch("/api/like", {
       method: "POST",
       body: JSON.stringify({
-        userId: userId,
+        userName: userName,
         commentId: commentId,
       }),
     });
@@ -52,10 +52,10 @@ export default function useLike() {
   };
 
   const deleteLike = async ({
-    userId,
+    userName,
     commentId,
   }: {
-    userId: number;
+    userName: string;
     commentId: number;
   }) => {
     if (loading) return;
@@ -64,7 +64,7 @@ export default function useLike() {
     const res = await fetch("/api/like", {
       method: "DELETE",
       body: JSON.stringify({
-        userId,
+        userName,
         commentId,
       }),
     });

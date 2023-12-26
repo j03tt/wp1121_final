@@ -7,10 +7,10 @@ export default function useDisLike() {
   const router = useRouter();
 
   const postDislike = async ({
-    userId,
+    userName,
     commentId,
   }: {
-    userId: number;
+    userName: string;
     commentId: number;
   }) => {
     if (loading) return;
@@ -19,7 +19,7 @@ export default function useDisLike() {
     const res = await fetch("/api/dislike", {
       method: "POST",
       body: JSON.stringify({
-        userId,
+        userName,
         commentId,
       }),
     });
@@ -52,10 +52,10 @@ export default function useDisLike() {
   };
 
   const deleteDislike = async ({
-    userId,
+    userName,
     commentId,
   }: {
-    userId: number;
+    userName: string;
     commentId: number;
   }) => {
     if (loading) return;
@@ -64,7 +64,7 @@ export default function useDisLike() {
     const res = await fetch("/api/dislike", {
       method: "DELETE",
       body: JSON.stringify({
-        userId,
+        userName,
         commentId,
       }),
     });
