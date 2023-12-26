@@ -3,6 +3,7 @@ import useAuth from "@/hooks/useAuth";
 import { redirect } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { eq, desc, and } from "drizzle-orm";
+import Rating from '@mui/material/Rating';
 import {
   ArrowLeft,
   MoreHorizontal,
@@ -114,7 +115,7 @@ export default async function SongPage({
     <>
       <div className="mb-2 flex items-center w-1/2 gap-8 px-4">
         <Link href={{ pathname: "/", query: { username } }}>
-          <ArrowLeft size={32} />
+          <ArrowLeft className="mt-4" size={32} />
         </Link>
         <h1 className="text-3xl mt-4 font-bold text-center">Back to Menu</h1>
       </div>
@@ -123,16 +124,17 @@ export default async function SongPage({
           <div className="flex flex-col justify-between items-center px-4 pt-3 w-full">
             <div className="flex w-full gap-3 flex-row">
               <img src={song.thumbnail} alt="Song image Src" className="w-1/3"/>
-              <div className="flex flex-col justify-around w-full">
-                <p className="font-bold text-xl">Title: {song.songName ?? "..."}</p>
-                <p className="font-bold text-xl">Singer: {song.singerName ?? "..."}</p>
-                <p className="font-bold text-xl">Score: {song.avgScore ?? "..."} ({song.reviewers} user(s) had rated!)</p>
-                <p className="font-bold text-xl">Uploaded By: {song.username ?? "..."}</p>
+              <div className="flex flex-col justify-around w-full gap-4">
+                <div className="flex flex-row gap-1 justify-between items-center">
+                  <p className="font-bold text-3xl">{song.songName ?? "..."}</p>
+                  <p className="font-bold text-xs">Uploader - {song.username ?? "..."}</p>
+                </div>
+                <p className="font-bold text-xl">{song.singerName ?? "..."}</p>
+                <p className="font-bold text-xl"> <Rating name="read-only" value={parseFloat(song.avgScore)} precision={0.5} readOnly />{song.avgScore ?? "..."} ({song.reviewers} user(s) had rated!)</p>
               </div>
             </div>
             <Separator />
-            <p className="font-bold text-xl">Song Link
-            : <a href={song.songLink ?? "..."}>{song.songLink ?? "..."}</a>
+            <p className="font-bold text-xl text-left w-full"><a href={song.songLink ?? "..."}>{song.songLink ?? "..."}</a>
             </p>
             <p>Rate this song!</p>
 
