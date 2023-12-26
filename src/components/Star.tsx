@@ -61,7 +61,7 @@ export default function RateStar({
 {/* <Star color="#f6fa00" /> */}
   return (
     <div className="flex flex-row w-full items-center justify-around">
-        <div className="flex flex-row w-1/6 items-center justify-around" >
+        <div className="flex flex-row w-1/6 items-center justify-around gap-1" >
             <button onClick={() => handleReply("1")}>
                 {(score - 1 >= 0)? <Star size={20} color="#f6fa00" /> : <Star size={20}></Star>}
             </button>
@@ -78,7 +78,6 @@ export default function RateStar({
                 {(score - 5 >= 0)? <Star size={20} color="#f6fa00" /> : <Star size={20}></Star>}
             </button>
         </div>
-    
     </div>
   );
 }

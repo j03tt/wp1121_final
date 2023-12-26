@@ -26,17 +26,16 @@ export default function Reply({
 }: ReplyProps) {
   return (
     <>
-        <div className="flex gap-4">
-          <article className="flex grow flex-col">
-            <p className="font-bold">
-              {authorName} wrote at ( 
+        <div className="flex gap-4 w-full">
+          <article className="flex grow flex-col w-full">
+            <p className="font-bold w-full p-4">
+              {authorName} wrote at
               <time className="ml-2 font-normal text-gray-400">
                 <TimeText date={createdAt} format="h:mm A · D MMM YYYY" />
               </time>
-              ):
             </p> 
-            <div className="my-2 flex items-center justify-between gap-4">  
-              <article className="mt-2 whitespace-pre-wrap">
+            <div className="pl-4 pr-4 my-2 justify-between gap-4 w-full break-words">  
+              <article className="mt-2 whitespace-pre-wrap ">
                 {content}
               </article>
             </div>

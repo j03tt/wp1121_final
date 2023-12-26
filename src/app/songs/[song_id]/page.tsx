@@ -120,31 +120,40 @@ export default async function SongPage({
         <h1 className="text-3xl mt-4 font-bold text-center">Back to Menu</h1>
       </div>
       <div className="flex h-screen w-full flex-col overflow-hidden pt-2 items-center">
-        <div className="flex h-screen w-1/2 flex-col overflow-hidden pt-2 items-center border-2">
-          <div className="flex flex-col justify-between items-center px-4 pt-3 w-full">
+        <div className="flex h-screen w-1/2 flex-col overflow-hidden pt-2 items-center border-2 gap-2">
+          <div className="flex flex-col justify-between items-center px-4 pt-3 w-full gap-3">
             <div className="flex w-full gap-3 flex-row">
               <img src={song.thumbnail} alt="Song image Src" className="w-1/3"/>
-              <div className="flex flex-col justify-around w-full gap-4">
+              <div className="flex flex-col justify-around w-full gap-2">
                 <div className="flex flex-row gap-1 justify-between items-center">
                   <p className="font-bold text-3xl">{song.songName ?? "..."}</p>
                   <p className="font-bold text-xs">Uploader - {song.username ?? "..."}</p>
                 </div>
                 <p className="font-bold text-xl">{song.singerName ?? "..."}</p>
-                <p className="font-bold text-xl"> <Rating name="read-only" value={parseFloat(song.avgScore)} precision={0.5} readOnly />{song.avgScore ?? "..."} ({song.reviewers} user(s) had rated!)</p>
+                <div className="flex items-center gap-2">
+                  <Rating name="read-only" value={parseFloat(song.avgScore)} precision={0.5} readOnly  />
+                  <p>{song.avgScore ?? "..."}</p>
+                  <p>({song.reviewers} user(s) had rated!)</p>
+                </div>
+                <Link href={song.songLink ?? "..."} className="underline underline-offset-1 text-blue-700">Click to Listen</Link>
+                
               </div>
             </div>
             <Separator />
-            <p className="font-bold text-xl text-left w-full"><a href={song.songLink ?? "..."}>{song.songLink ?? "..."}</a>
-            </p>
-            <p>Rate this song!</p>
 
-            
-            { (username)? (
-              (userScore)?<RateStar replyToSongId={song.id} userScore={userScore.score} CurrentScore={song.avgScore} CurrentNum={song.reviewers}></RateStar> : 
-              <RateStar replyToSongId={song.id} userScore={""} CurrentScore={song.avgScore} CurrentNum={song.reviewers}></RateStar>
-            ) : (<p>Please login to rate the song</p>)
-            }
-            {(username)? <ReplyInput replyToSongId={song.id}></ReplyInput> : <p>Please login to comment</p>}
+            {/* <p className="font-bold text-xl text-left w-full"><a href={song.songLink ?? "..."}>{song.songLink ?? "..."}</a></p> */}
+            <div className="flex w-full gap-2 items-center">
+              {username !== null && (
+                <p className="font-bold text-lg w-full text-end">Rate this song!</p>
+              )}
+              { (username)? (
+                (userScore)?<RateStar replyToSongId={song.id} userScore={userScore.score} CurrentScore={song.avgScore} CurrentNum={song.reviewers}></RateStar> : 
+                <RateStar replyToSongId={song.id} userScore={""} CurrentScore={song.avgScore} CurrentNum={song.reviewers}></RateStar>
+              ) : (<p className="font-bold text-lg w-full p-1">Please login to rate the song</p>)
+              }
+            </div>
+
+            {(username)? <ReplyInput replyToSongId={song.id}></ReplyInput> : <p className="font-bold text-lg w-full text-center p-1">Please login to comment</p>}
             
           </div>
           <Separator />

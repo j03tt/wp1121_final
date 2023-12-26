@@ -49,12 +49,12 @@ export default function ReplyInput({
   }
 
   return (
-    <div className="flex flex-row" onClick={() => textareaRef.current?.focus()}>
-      <div className="grid grid-cols-[fit-content(48px)_1fr] gap-4 px-4 pt-4">
+    <div className="flex flex-row w-full justify-between" onClick={() => textareaRef.current?.focus()}>
+      <div className="grid grid-cols-[fit-content(48px)_1fr] gap-4 w-full">
         <GrowingTextarea
           ref={textareaRef}
-          wrapperClassName="col-start-2 row-start-2"
-          className="bg-transparent text-xl outline-none placeholder:text-gray-500"
+          wrapperClassName="col-start-2 row-start-2 overflow-scroll "
+          className="bg-transparent text-xl outline-none placeholder:text-gray-500 w-full "
           placeholder="comment!"
           onKeyDown={handleKey}
         />
@@ -63,12 +63,12 @@ export default function ReplyInput({
         <button
           className={cn(
             "my-2 rounded-full bg-brand px-4 py-2 text-white transition-colors hover:bg-brand/70",
-            "disabled:cursor-not-allowed disabled:bg-brand/40 disabled:hover:bg-brand/40",
+            "disabled:cursor-not-allowed disabled:bg-brand/40 disabled:hover:bg-brand/40 border-2 text-lg",
           )}
           onClick={handleReply}
           disabled={loading}
         >
-          send!
+          Send!
         </button>
       </div>
     </div>

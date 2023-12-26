@@ -22,7 +22,7 @@ export const usersTable = pgTable(
     provider: varchar("provider", { length: 100, enum: ["github", "credentials"] }) //provider
       .notNull()
       .default("credentials"),
-    bio: varchar("bio", { length: 300 }), // user biography
+    bio: varchar("bio", { length: 500 }), // user biography
   },
   (table) => ({
     userNameIndex: index("user_index").on(table.name),
@@ -40,7 +40,7 @@ export const songsTable = pgTable(
       .references(() => usersTable.name, { onDelete: "cascade", onUpdate: "cascade"}),
     songName: varchar("song_name", { length: 50 }).notNull(), // name of song
     singerName: varchar("singer_name", { length: 50 }).notNull(), // name of singer
-    songLink: varchar("song_link", { length: 150 }).notNull(), // link of song
+    songLink: varchar("song_link", { length: 300 }).notNull(), // link of song
     createdAt: timestamp("created_at").default(sql`now()`), // time that song be uploaded
     avgScore: numeric("average_score", { precision: 10, scale: 2 }).notNull(), // the average score of song
     reviewers: integer("reviewers").notNull(), // the number of people who score the song
