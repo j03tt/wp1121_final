@@ -21,7 +21,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <SessionProvider>
-          <ToastContainer position="bottom-left" />
+          <ToastContainer position="bottom-right" />
           {children}
         </SessionProvider>
       </body>
