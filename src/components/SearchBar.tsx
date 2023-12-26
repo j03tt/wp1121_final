@@ -34,7 +34,7 @@ export default function SearchBar(){
   return(
     <div className="w-2/5 flex flex-row justify-center item-center gap-4">
       <Input
-        placeholder="Enter keyword..."
+        placeholder="Search a song..."
         defaultValue={""}
         className = {"border-black-500 col-span-3"}
         ref={keywordInputRef}

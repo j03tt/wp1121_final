@@ -1,5 +1,7 @@
 import type { Metadata } from 'next'
 import { SessionProvider } from "next-auth/react";
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { Inter } from 'next/font/google'
 import './globals.css'
 
@@ -19,6 +21,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <SessionProvider>
+          <ToastContainer position="bottom-left" />
           {children}
         </SessionProvider>
       </body>

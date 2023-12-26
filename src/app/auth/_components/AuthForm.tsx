@@ -1,5 +1,8 @@
 "use client";
 
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 import { useState } from "react";
 
 import { signIn } from "next-auth/react";
@@ -25,20 +28,30 @@ function AuthForm() {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
-    if (password.length < 8) {
-      alert("Invalid Input! Password needs to be at least 8 characters.");
-      return;
-    }
-
+  
     if (!email || !password) {
-      alert("Invalid Input!");
+      toast.error("Invalid Input!");
       return;
     }
-    
+  
+    if (password.length < 8) {
+      toast.error("Invalid Input! Password must be at least 8 characters.");
+      return;
+    }
+  
     if (isSignUp) {
       if (!name || !confirmPassword) {
-        alert("Invalid Input!");
+        toast.error("Invalid Input!");
+        return;
+      }
+  
+      if (password !== confirmPassword) {
+        toast.error("Invalid Input! Confirmed Password must match Password.");
+        return;
+      }
+  
+      if (confirmPassword.length < 8) {
+        toast.error("Invalid Input! Confirmed Password must be at least 8 characters.");
         return;
       }
     }
