@@ -35,6 +35,7 @@ export default function ReplyInput({
       textareaRef.current.dispatchEvent(
         new Event("input", { bubbles: true, composed: true }),
       );
+      window.location.reload();
     } catch (e) {
       console.error(e);
       alert("Error posting reply!");
