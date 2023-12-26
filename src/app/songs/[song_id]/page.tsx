@@ -34,7 +34,7 @@ export default async function SongPage({
   const { auth } = useAuth();
   const session = await auth();
   const username = session?.user?.name;
-  if(!username) return;
+  //if(!username) return;
   const song_id_num = parseInt(song_id);
   if (isNaN(song_id_num)) {
     errorRedirect();
@@ -57,13 +57,13 @@ export default async function SongPage({
     errorRedirect();
   }
 
-  const [userScore] = await db
+  const [userScore] = (username)? await db
     .select({
       score: scoresTable.score
     })
     .from(scoresTable)
-    .where(and(eq(scoresTable.songId, song_id_num), eq(scoresTable.userName, username)))
-    .execute()
+    .where(and(eq(scoresTable.songId, song_id_num), eq(scoresTable.userName, username!)))
+    .execute() : [];
   console.log("owoowowowowowow:"+username)
 
   var replies = await db
@@ -107,13 +107,6 @@ export default async function SongPage({
     avgScore: songData.avgScore,
     reviewers: songData.reviewers,
     username: songData.username
-    //username: user.displayName,
-    //handle: user.handle,
-    //likes: numLikes,
-    //createdAt: tweetData.createdAt,
-    //liked: Boolean(liked),
-    //fromDate: tweetData.fromDate,
-    //toDate: tweetData.toDate,
   };
 
 
@@ -144,9 +137,13 @@ export default async function SongPage({
             <p>Rate this song!</p>
 
             
-            {(userScore)?<RateStar replyToSongId={song.id} userScore={userScore.score} CurrentScore={song.avgScore} CurrentNum={song.reviewers}></RateStar> : 
-            <RateStar replyToSongId={song.id} userScore={""} CurrentScore={song.avgScore} CurrentNum={song.reviewers}></RateStar>}
-            <ReplyInput replyToSongId={song.id}></ReplyInput>
+            { (username)? (
+              (userScore)?<RateStar replyToSongId={song.id} userScore={userScore.score} CurrentScore={song.avgScore} CurrentNum={song.reviewers}></RateStar> : 
+              <RateStar replyToSongId={song.id} userScore={""} CurrentScore={song.avgScore} CurrentNum={song.reviewers}></RateStar>
+            ) : (<p>Please login to rate the song</p>)
+            }
+            {(username)? <ReplyInput replyToSongId={song.id}></ReplyInput> : <p>Please login to comment</p>}
+            
           </div>
           <Separator />
           {replies.map((reply) => (
@@ -156,10 +153,6 @@ export default async function SongPage({
               authorName={reply.userName}
               content={reply.content??""}
               createdAt={reply.createAt!}
-              // liked={reply.}
-              // likes,
-              // disliked,
-              // dislikes,
             />
           ))}
         </div>
