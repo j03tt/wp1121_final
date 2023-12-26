@@ -10,6 +10,7 @@ import { redirect } from "next/navigation";
 
 import HeaderBar from "@/components/HeaderBar";
 import SongInput from "@/components/SongInput";
+import EditBioButton from "@/components/EditBioButton";
 import { Separator } from "@/components/ui/separator";
 
 import { ArrowLeft } from "lucide-react";
@@ -101,7 +102,10 @@ export default async function ProfilePage({
                 </div>
                 <div className="flex flex-row items-start justify-center px-4 mt-4">
                     <div className="p-6 rounded-lg shadow-md w-96">
-                        <h2 className="text-2xl font-semibold mb-2">Profile Information</h2>
+                        <div className="flex items-center justify-between">
+                            <h2 className="text-2xl font-semibold mb-2">Profile Information</h2>
+                            <EditBioButton userId={userData.id} bio={userData.bio} />
+                        </div>
                         <Separator />
                         <div className="mt-4" />
                         <div className="mb-4">
