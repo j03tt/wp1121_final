@@ -7,6 +7,7 @@ import NewSongButton from "@/components/uploadSong";
 import SignInButton from "@/components/SignInButton";
 import SignOutButton from "@/components/SignOutButton";
 import MyAccountButton from "@/components/MyAccountButton";
+import SearchBar from "@/components/SearchBar";
 
 export default async function HeaderBar() {
   const { auth } = useAuth();
@@ -18,18 +19,18 @@ export default async function HeaderBar() {
         <Link href={`${publicEnv.NEXT_PUBLIC_BASE_URL}`}>
             <h1 className="px-4 text-xl font-bold text-center">Music!</h1>
         </Link>
-        
+        <SearchBar />
         <div className="flex items-center gap-4">
             <Filter />
-        {!session?.user?.id ? (
-            <SignInButton />
-        ) : (
-            <div className="flex flex-row items-center gap-2">
-                <NewSongButton />
-                <SignOutButton />
-                <MyAccountButton userName={ session.user.name }/>
-            </div>
-        )}
+            {!session?.user?.id ? (
+                <SignInButton />
+            ) : (
+                <div className="flex flex-row items-center gap-2">
+                    <NewSongButton />
+                    <SignOutButton />
+                    <MyAccountButton userName={ session.user.name }/>
+                </div>
+            )}
         </div>
     </div>
   );

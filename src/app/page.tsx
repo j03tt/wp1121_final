@@ -45,8 +45,8 @@ export default async function Home({
       <HeaderBar />
       <Separator />
       <div className="flex flex-col w-full items-center justify-between px-4 mb-4">
-        <SearchBar />
-        <div className="flex h-screen w-full flex-row overflow-hidden pt-2">
+        {/* <SearchBar /> */}
+        <div className="flex flex-wrap h-screen w-full flex-row pt-2">
           {songs.map((song) => (
               <Song
                 key={song.id}

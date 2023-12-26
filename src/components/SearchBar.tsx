@@ -32,9 +32,9 @@ export default function SearchBar(){
   };
   
   return(
-    <div className="w-full flex flex-row justify-center item-center">
+    <div className="w-2/5 flex flex-row justify-center item-center gap-4">
       <Input
-        placeholder="Enter Keyword."
+        placeholder="Enter keyword..."
         defaultValue={""}
         className = {"border-black-500 col-span-3"}
         ref={keywordInputRef}
@@ -42,13 +42,12 @@ export default function SearchBar(){
             if(e.key == 'Enter') {
                 handleSearch()
             }
-        }}  
+        }}
       />
       <button
         className="flex h-10 items-center rounded-full p-3 text-start transition-colors duration-300 border border-gray-500 border-solid hover:bg-gray-200"
         onClick={handleSearch}
-        
-      > 
+      >
         <Search />
         <p className="text-sm font-bold">Search!</p>
       </button>
