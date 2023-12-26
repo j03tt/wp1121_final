@@ -8,6 +8,7 @@ type SongProps = {
     singer_name: string;
     song_link: string;
     score: string;
+    mode: number;
 };
 
 export default function SongInProfile({
@@ -15,7 +16,8 @@ export default function SongInProfile({
     song_name,
     singer_name,
     song_link,
-    score
+    score,
+    mode
 }: SongProps) {
   return (
     <>
@@ -35,7 +37,12 @@ export default function SongInProfile({
                     <strong>Song:</strong> {song_name}
                 </div>
                 <div className="mb-4">
-                    <strong>Score:</strong> {score}
+                    {mode === 0 ? (
+                        <strong>Average Rating: </strong>
+                    ) : mode === 1 ? (
+                        <strong>Your Rating: </strong>
+                    ) : null}
+                    {score}
                 </div>
             </article>
             </div>

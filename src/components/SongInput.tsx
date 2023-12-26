@@ -2,16 +2,17 @@
 
 import SongInProfile from "@/components/SongInProfile";
 
-type Song = {
+type SongInProfile = {
   song_id: number;
   song_name: string;
   singer_name: string;
   song_link: string;
   score: string;
+  mode: number;
 };
 
 interface SongInputProps {
-  songs: Song[];
+  songs: SongInProfile[];
 };
 
 export default function SongInput({ songs }: SongInputProps) {
@@ -25,6 +26,7 @@ export default function SongInput({ songs }: SongInputProps) {
           singer_name={song.singer_name}
           song_link={song.song_link}
           score={song.score}
+          mode={song.mode}
         />
       ))}
   </div>

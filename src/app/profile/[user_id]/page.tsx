@@ -79,6 +79,15 @@ export default async function ProfilePage({
         .execute();
     // if (!reviewedSongsData) console.log("# reviewed songs: 0 or null");
 
+    const uploadedSongsDataWithMode = uploadedSongsData.map((song) => ({
+        ...song,
+        mode: 0,
+    }));
+    const reviewedSongsDataWithMode = reviewedSongsData.map((song) => ({
+        ...song,
+        mode: 1,
+    }));
+
 	return (
 		<div className="flex h-screen w-full flex-col overflow-auto pt-2">
 			<HeaderBar />
@@ -101,12 +110,12 @@ export default async function ProfilePage({
                 <div className="p-6 rounded-lg shadow-md w-96">
                     <h2 className="text-2xl font-semibold mb-2">Uploaded Songs</h2>
                     <Separator />
-                    <SongInput songs={uploadedSongsData} />
+                    <SongInput songs={uploadedSongsDataWithMode} />
                 </div>
                 <div className="p-6 rounded-lg shadow-md w-96">
                     <h2 className="text-2xl font-semibold mb-2">Reviewed Songs</h2>
                     <Separator />
-                    <SongInput songs={reviewedSongsData} />
+                    <SongInput songs={reviewedSongsDataWithMode} />
                 </div>
             </div>
 		</div>
