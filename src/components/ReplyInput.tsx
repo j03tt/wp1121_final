@@ -37,7 +37,7 @@ export default function ReplyInput({
       );
     } catch (e) {
       console.error(e);
-      alert("Error posting reply");
+      alert("Error posting reply!");
     }
   };
 
@@ -53,9 +53,9 @@ export default function ReplyInput({
       <div className="grid grid-cols-[fit-content(48px)_1fr] gap-4 w-full">
         <GrowingTextarea
           ref={textareaRef}
-          wrapperClassName="col-start-2 row-start-2 overflow-scroll "
+          wrapperClassName="col-start-2 row-start-2 overflow-auto"
           className="bg-transparent text-xl outline-none placeholder:text-gray-500 w-full "
-          placeholder="comment!"
+          placeholder="Comment!"
           onKeyDown={handleKey}
         />
       </div>

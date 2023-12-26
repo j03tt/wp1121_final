@@ -120,7 +120,7 @@ export default async function SongPage({
         <h1 className="text-3xl mt-4 font-bold text-center">Back to Menu</h1>
       </div>
       <div className="flex h-screen w-full flex-col overflow-hidden pt-2 items-center">
-        <div className="flex h-screen w-1/2 flex-col overflow-hidden pt-2 items-center border-2 gap-2">
+        <div className="flex h-screen w-1/2 flex-col overflow-auto pt-2 items-center border-2 gap-2">
           <div className="flex flex-col justify-between items-center px-4 pt-3 w-full gap-3">
             <div className="flex w-full gap-3 flex-row">
               <img src={song.thumbnail} alt="Song image Src" className="w-1/3"/>

@@ -75,26 +75,50 @@ function AuthForm() {
       </CardHeader>
       <CardContent className=" flex flex-col gap-2">
         <form onSubmit={handleSubmit} className="flex flex-col gap-2">
-          <AuthInput
+          {isSignUp ? (
+            <AuthInput
+              label="Email"
+              type="email"
+              value={email}
+              defaultValue={"Must be unique"}
+              setValue={setEmail}
+            />
+          ) : (
+            <AuthInput
             label="Email"
             type="email"
             value={email}
             setValue={setEmail}
           />
+          )}
+
           {isSignUp && (
             <AuthInput
               label="Name"
               type="text"
               value={name}
+              defaultValue={"Must be unique"}
               setValue={setName}
             />
           )}
-          <AuthInput
-            label="Password"
-            type="password"
-            value={password}
-            setValue={setPassword}
-          />
+
+          {isSignUp ? (
+            <AuthInput
+              label="Password"
+              type="password"
+              value={password}
+              defaultValue={"Must be at least 8 characters"}
+              setValue={setPassword}
+            />
+          ) : (
+            <AuthInput
+              label="Password"
+              type="password"
+              value={password}
+              setValue={setPassword}
+            />
+          )}
+          
           {isSignUp && (
             <AuthInput
               label="Confirm Password"

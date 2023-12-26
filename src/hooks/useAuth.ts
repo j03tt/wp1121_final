@@ -64,6 +64,7 @@ export default function useAuth(){
     },
     pages: {
       signIn: "/auth",
+      error: '/auth'
     },
   });
   

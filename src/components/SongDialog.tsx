@@ -56,6 +56,7 @@ export default function SongDialog({open, onClose} : actDiaProp) {
       });
     } catch(e) {
       console.log(e);
+      alert("Error posting song!");
     }
     onClose()
     return ;
@@ -99,7 +100,7 @@ export default function SongDialog({open, onClose} : actDiaProp) {
             </Label>
             <div className="col-span-3 flex items-center gap-2">
               <Input
-                placeholder="link to the song"
+                placeholder="Link to the song"
                 defaultValue={""}
                 ref={linkInputRef}
               />
@@ -107,11 +108,11 @@ export default function SongDialog({open, onClose} : actDiaProp) {
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
             <Label htmlFor="name" className="text-right">
-              Song thumbnail
+              Song Thumbnail
             </Label>
             <div className="col-span-3 flex items-center gap-2">
               <Input
-                placeholder="link to the thumbnail of the song"
+                placeholder="Link to the thumbnail of the song"
                 defaultValue={""}
                 ref={srcInputRef}
               />
