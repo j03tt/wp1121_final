@@ -32,7 +32,7 @@ export default function Song({
   return (
     <>
       <Link
-        className="w-1/6 px-4 pt-3 transition-colors hover:bg-gray-50"
+        className="w-1/6 h-1/2 px-4 pt-3 transition-colors hover:bg-gray-700"
         href={{
           pathname: `/songs/${id}`,
           query: {
@@ -41,16 +41,16 @@ export default function Song({
         }}
       >
         <div className="flex gap-4">
-          <article className="flex grow flex-col">
+          <article className="flex grow flex-col gap-3">
             <img src={image} alt="Song image Src" className="w-full"/>
-            <p className="font-bold">{singer} - {songTitle}</p> 
+            <Separator />
+            <p className="font-bold text-xl">{singer} <br/> {songTitle}</p> 
             <div className="my-2 flex items-center justify-between gap-4">  
-              score: {score}, {reviewers} people had rated it.
+              Score {score} <br/> {reviewers} People Rated.
             </div>
           </article>
         </div>
       </Link>
-      <Separator />
     </>
   );
 }

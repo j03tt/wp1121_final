@@ -21,7 +21,6 @@ export default function RateStar({
   const username = session?.user?.name;
   const { putScore, postScore, loading } = useScore();
   const { putSong, getSong } = useSong();
-  console.log(userScore)
   const score = (userScore)? parseInt(userScore) : 0
   const current = parseFloat(CurrentScore)
   const handleReply = async (index:string) => {
@@ -30,6 +29,7 @@ export default function RateStar({
     try {
       if(score == 0) {
         console.log("uwu")
+        // alert(username)
         await postScore({
             songId: replyToSongId,
             userName: username,
@@ -49,7 +49,7 @@ export default function RateStar({
         });
         await putSong({
             songId: replyToSongId,
-            reviewers: (CurrentNum+1),
+            reviewers: (CurrentNum),
             avgScore: (current*CurrentNum-score+parseInt(index))/(CurrentNum),
         })
       }

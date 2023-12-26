@@ -1,7 +1,7 @@
 import useAuth from "@/hooks/useAuth";
 import Song from "@/components/Song";
 import HeaderBar from "@/components/HeaderBar";
-import MainPage from "@/components/MainPage";
+import SearchBar from "@/components/SearchBar";
 import { Separator } from "@/components/ui/separator";
 import useUserInfo from "@/hooks/useUserInfo";
 import { eq, desc, isNull, sql, like, notIlike, and} from "drizzle-orm";
@@ -10,16 +10,16 @@ import { likesTable, songsTable, usersTable } from "@/db/schema";
 
 type HomePageProps = {
   searchParams: {
-    username?: string;
+    keyWord?: string;
   };
 };
 
 export default async function Home({
-  searchParams: { username },
+  searchParams: { keyWord },
 }: HomePageProps) {
   const { auth } = useAuth();
   const session = await auth();
-  
+  const username = session?.user?.name;
   const songs = await db
     // .with(likesSubquery, likedSubquery)
     .select({
@@ -32,16 +32,16 @@ export default async function Home({
       image: songsTable.thumbnail
     })
     .from(songsTable)
+    .where((keyWord)? like(songsTable.songName, `%${keyWord}%`) : notIlike(songsTable.songName, `%${keyWord}%`))
     .orderBy(desc(songsTable.createdAt))
     .execute();
   return (
     <div className="flex h-screen w-full flex-col overflow-auto pt-2">
       <HeaderBar />
       <Separator />
-      <div className="flex flex-col items-center justify-between px-4 mb-4">
-          Main Page Goes Here
-          <div className="flex h-screen w-full max-w-2xl flex-col overflow-scroll pt-2">
-          <h1 className="mb-2 bg-grey px-4 text-xl font-bold text-center">SongList</h1>
+      <div className="flex flex-col w-full items-center justify-between px-4 mb-4">
+        <SearchBar />
+        <div className="flex h-screen w-full flex-row overflow-hidden pt-2">
           {songs.map((song) => (
               <Song
                 key={song.id}
