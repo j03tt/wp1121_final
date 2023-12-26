@@ -54,8 +54,8 @@ export default function ReplyInput({
       <div className="grid grid-cols-[fit-content(48px)_1fr] gap-4 w-full">
         <GrowingTextarea
           ref={textareaRef}
-          wrapperClassName="col-start-2 row-start-2 overflow-auto"
-          className="bg-transparent text-xl outline-none placeholder:text-gray-500 w-full break-all overflow-y-hidden"
+          wrapperClassName="col-start-2 row-start-2 break-all"
+          className="bg-transparent text-xl outline-none placeholder:text-gray-500 max-w-full text-wrap"
           placeholder="Comment!"
           onKeyDown={handleKey}
         />

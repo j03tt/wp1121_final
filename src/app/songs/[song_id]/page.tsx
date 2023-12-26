@@ -2,7 +2,7 @@ import Link from "next/link";
 import useAuth from "@/hooks/useAuth";
 import { redirect } from "next/navigation";
 import { useSession } from "next-auth/react";
-import { eq, desc, isNull, sql, like, notIlike, and} from "drizzle-orm";
+import { eq, asc, desc, isNull, sql, like, notIlike, and} from "drizzle-orm";
 import Rating from '@mui/material/Rating';
 import {
   ArrowLeft,
@@ -10,6 +10,7 @@ import {
   Share,
 } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
+import FilterReply from "@/components/FilterReply";
 import ReplyInput from "@/components/ReplyInput";
 import RateStar from "@/components/Star";
 import Reply from "@/components/Reply";
@@ -22,10 +23,12 @@ type SongPageProps = {
   };
   searchParams: {
     username?: string;
+    Filter?: string;
   };
 };
 export default async function SongPage({
   params: { song_id },
+  searchParams: { Filter },
 }: SongPageProps) {
   const errorRedirect = () => {
     const params = new URLSearchParams();
@@ -36,6 +39,7 @@ export default async function SongPage({
   const session = await auth();
   const username = session?.user?.name;
   //if(!username) return;
+  //console.log(Filter)
   const song_id_num = parseInt(song_id);
   if (isNaN(song_id_num)) {
     errorRedirect();
@@ -105,7 +109,6 @@ export default async function SongPage({
     .from(scoresTable)
     .where(and(eq(scoresTable.songId, song_id_num), eq(scoresTable.userName, username!)))
     .execute() : [];
-  console.log("owoowowowowowow:"+username)
 
   var replies = await db
     .with(likesSubquery, likedSubquery, dislikesSubquery, dislikedSubquery)
@@ -118,10 +121,17 @@ export default async function SongPage({
       liked: likedSubquery.liked,
       dislikes: dislikesSubquery.dislikes,
       disliked: dislikedSubquery.disliked,
+      score: scoresTable.score,
     })
     .from(commentsTable)
     .where(eq(commentsTable.songId, song_id_num))
-    .orderBy(desc(commentsTable.createdAt))
+    .orderBy((!Filter || Filter === "0")? desc(commentsTable.createdAt) : 
+    (Filter === "1")? asc(commentsTable.createdAt) : 
+    (Filter === "2")? asc(scoresTable.score) : 
+    (Filter === "3")? desc(scoresTable.score) : 
+    (Filter === "4")? asc(likesSubquery.likes) : 
+    asc(dislikesSubquery.dislikes))
+    .leftJoin(scoresTable, eq(commentsTable.userName, scoresTable.userName))
     .leftJoin(likesSubquery, eq(commentsTable.id, likesSubquery.commentId))
     .leftJoin(likedSubquery, eq(commentsTable.id, likedSubquery.commentId))
     .leftJoin(dislikesSubquery, eq(commentsTable.id, dislikesSubquery.commentId))
@@ -143,10 +153,15 @@ export default async function SongPage({
       liked: likedSubquery.liked,
       dislikes: dislikesSubquery.dislikes,
       disliked: dislikedSubquery.disliked,
+      score: scoresTable.score,
     })
     .from(commentsTable)
     .where(eq(commentsTable.songId, song_id_num))
-    .orderBy(desc(commentsTable.createdAt))
+    .orderBy((!Filter || Filter === "0")? desc(commentsTable.createdAt) : 
+    (Filter === "1")? asc(commentsTable.createdAt) : 
+    (Filter === "2")? desc(scoresTable.score) : 
+    asc(scoresTable.score))
+    .leftJoin(scoresTable, eq(commentsTable.userName, scoresTable.userName))
     .leftJoin(likesSubquery, eq(commentsTable.id, likesSubquery.commentId))
     .leftJoin(likedSubquery, eq(commentsTable.id, likedSubquery.commentId))
     .leftJoin(dislikesSubquery, eq(commentsTable.id, dislikesSubquery.commentId))
@@ -171,14 +186,18 @@ export default async function SongPage({
 
   return (
     <>
-      <div className="mb-2 flex items-center w-1/2 gap-8 px-4">
-        <Link href={{ pathname: "/", query: { username } }}>
-          <ArrowLeft className="mt-4" size={32} />
-        </Link>
-        <h1 className="text-3xl mt-4 font-bold text-center">Back to Menu</h1>
+      <div className="flex flex-row w-full justify-between">
+        <div className="mb-2 flex items-center w-1/2 gap-8 px-4">
+          <Link href={{ pathname: "/", query: { username } }}>
+            <ArrowLeft className="mt-4" size={32} />
+          </Link>
+          <h1 className="text-3xl mt-4 font-bold text-center">Back to Menu</h1>
+        </div>
+        <FilterReply></FilterReply>
       </div>
-      <div className="flex h-screen w-full flex-col overflow-hidden pt-2 items-center">
-        <div className="flex h-screen w-1/2 flex-col overflow-auto pt-2 items-center border-2 gap-2">
+      
+      <div className="flex h-max w-full flex-col overflow-hidden pt-2 items-center">
+        <div className="flex h-max w-1/2 flex-col overflow-auto pt-2 items-center border-2 gap-2">
           <div className="flex flex-col justify-between items-center px-4 pt-3 w-full gap-3">
             <div className="flex w-full gap-3 flex-row">
               <img src={song.thumbnail} alt="Song image Src" className="w-1/3"/>
@@ -227,6 +246,7 @@ export default async function SongPage({
               liked={reply.liked}
               dislikes={reply.dislikes}
               disliked={reply.disliked}
+              score={reply.score!}
             />
           ))}
         </div>

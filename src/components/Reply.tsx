@@ -2,6 +2,7 @@ import { Separator } from "@/components/ui/separator";
 import TimeText from "./TimeText";
 import LikeButton from "./LikeButton";
 import DislikeButton from "./DislikeButton";
+import Rating from '@mui/material/Rating';
 
 type ReplyProps = {
   id: number;
@@ -13,6 +14,7 @@ type ReplyProps = {
   likes: number;
   disliked?: boolean;
   dislikes: number;
+  score: string;
 };
 
 export default function Reply({
@@ -25,6 +27,7 @@ export default function Reply({
   likes,
   disliked,
   dislikes,
+  score,
 }: ReplyProps) {
   return (
     <>
@@ -37,6 +40,7 @@ export default function Reply({
                 <TimeText date={createdAt} format="h:mm A · D MMM YYYY" />
               </time>
             </p>
+            <Rating sx={{marginTop: 2}} name="read-only" value={parseFloat((score)? score : "0")} precision={0.5} readOnly  />
             <LikeButton 
               op={disliked!}
               initialLikes={likes}

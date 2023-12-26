@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import type { EventHandler, MouseEvent } from "react";
-
+import { toast } from 'react-toastify';
 import { CheckCircle2, Heart } from "lucide-react";
 
 import useLike from "@/hooks/useLike";
@@ -64,7 +64,7 @@ export default function DislikeButton({
   const handleVisit: EventHandler<MouseEvent> = async (e) => {
     e.stopPropagation();
     e.preventDefault();
-    alert("Log in to like the song uwu")
+    toast.error("Oops, you are homeless. You can not praise someone's comment being homeless. Log in now!")
   };
 
   return (

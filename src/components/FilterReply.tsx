@@ -6,16 +6,18 @@ import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import { useRef, useState } from "react";
 import { Input } from "@/components/ui/input";
-import { Search } from "lucide-react"
-import { useRouter, usePathname, useSearchParams } from "next/navigation";
+import { RefreshCcw, Search } from "lucide-react"
+import { useRouter, usePathname, useSearchParams, redirect } from "next/navigation";
 import { useSession } from "next-auth/react";
 const options = [
-    'Descending date (Default)',
-    'Ascending date',
-    'Descending rating',
-    'Ascending rating',
+    'Latest on top (Default)',
+    'Oldest on top',
+    'Highest Rating on top',
+    'Lowest Rating on top',
+    'Most Liked on top',
+    'Most Hated on top',
   ];
-export default function Filter(){
+export default function FilterReply(){
   const router = useRouter();
   const {data: session} = useSession();
   const searchParams = useSearchParams()
@@ -48,6 +50,7 @@ export default function Filter(){
     const params = new URLSearchParams(searchParams);
     params.set("Filter", index.toString());
     router.push(`${pathname}?${params.toString()}`);
+    window.location.replace(`${pathname}?${params.toString()}`);
   };
 
   const handleClose = () => {

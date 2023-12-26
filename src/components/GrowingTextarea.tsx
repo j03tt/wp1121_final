@@ -28,7 +28,7 @@ const GrowingTextarea = forwardRef<HTMLTextAreaElement, GrowingTextareaProps>(
         <textarea
           className={cn(
             className,
-            "resize-none overflow-hidden break-all",
+            "resize-none overflow-hidden break-all max-w-full text-wrap",
             "col-span-1 col-start-1 row-span-1 row-start-1",
           )}
           placeholder={placeholder}
