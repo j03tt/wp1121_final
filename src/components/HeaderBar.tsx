@@ -6,6 +6,7 @@ import Filter from "./Filter";
 import NewSongButton from "@/components/uploadSong";
 import SignInButton from "@/components/SignInButton";
 import SignOutButton from "@/components/SignOutButton";
+import MyAccountButton from "@/components/MyAccountButton";
 
 export default async function HeaderBar() {
   const { auth } = useAuth();
@@ -23,27 +24,11 @@ export default async function HeaderBar() {
         {!session?.user?.id ? (
             <SignInButton />
         ) : (
-            <>
-                <div className="flex flex-row items-center gap-2">
-                    <NewSongButton />
-                    {/* Move to the profile page later */}
-                    <SignOutButton />
-                </div>
-                
-                {/* profile page goes from here*/}
-                <Link 
-                    href={{
-                        pathname: `/profile/${user_id}`
-                    }}>
-                    <div className="flex items-center gap-2">
-                    {/* [todo: avatar] */}
-                    <div className="flex h-8 w-8 items-center justify-center rounded-full bg-blue-400 cursor-pointer"></div>
-                    <span className="text-md font-semibold">
-                        {session?.user?.name}
-                    </span>
-                    </div>
-                </Link>
-            </>
+            <div className="flex flex-row items-center gap-2">
+                <NewSongButton />
+                <SignOutButton />
+                <MyAccountButton userName={ session.user.name }/>
+            </div>
         )}
         </div>
     </div>
