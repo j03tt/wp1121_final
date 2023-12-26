@@ -44,7 +44,7 @@ export const songsTable = pgTable(
     createdAt: timestamp("created_at").default(sql`now()`), // time that song be uploaded
     avgScore: numeric("average_score", { precision: 10, scale: 2 }).notNull(), // the average score of song
     reviewers: integer("reviewers").notNull(), // the number of people who score the song
-    thumbnail: varchar("thumbnail", { length: 150 }).notNull(), // link of song's thumbnail
+    thumbnail: varchar("thumbnail", { length: 300 }).notNull(), // link of song's thumbnail
   },
   (table) => ({
     userNameIndex: index("user_name_index").on(table.userName),
