@@ -2,7 +2,7 @@ import Link from "next/link";
 import useAuth from "@/hooks/useAuth";
 import { redirect } from "next/navigation";
 import { useSession } from "next-auth/react";
-import { eq, desc, and } from "drizzle-orm";
+import { eq, desc, isNull, sql, like, notIlike, and} from "drizzle-orm";
 import Rating from '@mui/material/Rating';
 import {
   ArrowLeft,
@@ -14,7 +14,7 @@ import ReplyInput from "@/components/ReplyInput";
 import RateStar from "@/components/Star";
 import Reply from "@/components/Reply";
 import { db } from "@/db";
-import { commentsTable, likesTable, songsTable, usersTable, scoresTable } from "@/db/schema";
+import { commentsTable, dislikesTable, likesTable, songsTable, usersTable, scoresTable } from "@/db/schema";
 
 type SongPageProps = {
   params: {
@@ -58,6 +58,46 @@ export default async function SongPage({
     errorRedirect();
   }
 
+  const likesSubquery = db.$with("likes_count").as(
+    db
+      .select({
+        commentId: likesTable.commentId,
+        likes: sql<number | null>`count(*)`.mapWith(Number).as("likes"),
+      })
+      .from(likesTable)
+      .groupBy(likesTable.commentId),
+  );
+
+  const likedSubquery = db.$with("liked").as(
+    db
+      .select({
+        commentId: likesTable.commentId,
+        liked: sql<number>`1`.mapWith(Boolean).as("liked"),
+      })
+      .from(likesTable)
+      .where(eq(likesTable.userName, username ?? "")),
+  );
+
+  const dislikesSubquery = db.$with("dislikes_count").as(
+    db
+      .select({
+        commentId: dislikesTable.commentId,
+        dislikes: sql<number | null>`count(*)`.mapWith(Number).as("dislikes"),
+      })
+      .from(dislikesTable)
+      .groupBy(dislikesTable.commentId),
+  );
+
+  const dislikedSubquery = db.$with("disliked").as(
+    db
+      .select({
+        commentId: dislikesTable.commentId,
+        disliked: sql<number>`1`.mapWith(Boolean).as("disliked"),
+      })
+      .from(dislikesTable)
+      .where(eq(dislikesTable.userName, username ?? "")),
+  );
+
   const [userScore] = (username)? await db
     .select({
       score: scoresTable.score
@@ -68,15 +108,24 @@ export default async function SongPage({
   console.log("owoowowowowowow:"+username)
 
   var replies = await db
+    .with(likesSubquery, likedSubquery, dislikesSubquery, dislikedSubquery)
     .select({
       id: commentsTable.id,
       content: commentsTable.content,
       userName: commentsTable.userName,
-      createAt: commentsTable.createdAt
+      createAt: commentsTable.createdAt,
+      likes: likesSubquery.likes,
+      liked: likedSubquery.liked,
+      dislikes: dislikesSubquery.dislikes,
+      disliked: dislikedSubquery.disliked,
     })
     .from(commentsTable)
     .where(eq(commentsTable.songId, song_id_num))
     .orderBy(desc(commentsTable.createdAt))
+    .leftJoin(likesSubquery, eq(commentsTable.id, likesSubquery.commentId))
+    .leftJoin(likedSubquery, eq(commentsTable.id, likedSubquery.commentId))
+    .leftJoin(dislikesSubquery, eq(commentsTable.id, dislikesSubquery.commentId))
+    .leftJoin(dislikedSubquery, eq(commentsTable.id, dislikedSubquery.commentId))
     .execute();
   if (!songData) {
     errorRedirect();
@@ -84,15 +133,24 @@ export default async function SongPage({
   
   setInterval(async () => {
     replies = await db
+    .with(likesSubquery, likedSubquery, dislikesSubquery, dislikedSubquery)
     .select({
       id: commentsTable.id,
       content: commentsTable.content,
       userName: commentsTable.userName,
-      createAt: commentsTable.createdAt
+      createAt: commentsTable.createdAt,
+      likes: likesSubquery.likes,
+      liked: likedSubquery.liked,
+      dislikes: dislikesSubquery.dislikes,
+      disliked: dislikedSubquery.disliked,
     })
     .from(commentsTable)
     .where(eq(commentsTable.songId, song_id_num))
     .orderBy(desc(commentsTable.createdAt))
+    .leftJoin(likesSubquery, eq(commentsTable.id, likesSubquery.commentId))
+    .leftJoin(likedSubquery, eq(commentsTable.id, likedSubquery.commentId))
+    .leftJoin(dislikesSubquery, eq(commentsTable.id, dislikesSubquery.commentId))
+    .leftJoin(dislikedSubquery, eq(commentsTable.id, dislikedSubquery.commentId))
     .execute();
   if (!songData) {
     errorRedirect();
@@ -164,6 +222,11 @@ export default async function SongPage({
               authorName={reply.userName}
               content={reply.content??""}
               createdAt={reply.createAt!}
+              currentUser={username!}
+              likes={reply.likes}
+              liked={reply.liked}
+              dislikes={reply.dislikes}
+              disliked={reply.disliked}
             />
           ))}
         </div>

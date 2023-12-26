@@ -54,7 +54,7 @@ export default function ReplyInput({
         <GrowingTextarea
           ref={textareaRef}
           wrapperClassName="col-start-2 row-start-2 overflow-auto"
-          className="bg-transparent text-xl outline-none placeholder:text-gray-500 w-full "
+          className="bg-transparent text-xl outline-none placeholder:text-gray-500 w-full break-all overflow-y-hidden"
           placeholder="Comment!"
           onKeyDown={handleKey}
         />
