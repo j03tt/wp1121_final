@@ -17,7 +17,7 @@ export default function ReplyInput({
 }: ReplyInputProps) {
   const {data: session} = useSession();
   const username = session?.user?.name;
-  const textareaRef = useRef<HTMLTextAreaElement>(null); 
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
   const { postComment, loading } = useComment();
 
   const handleReply = async () => {
@@ -50,14 +50,17 @@ export default function ReplyInput({
   }
 
   return (
-    <div className="flex flex-row w-full justify-between" onClick={() => textareaRef.current?.focus()}>
-      <div className="grid grid-cols-[fit-content(48px)_1fr] gap-4 w-full">
-        <GrowingTextarea
+    <div className="flex flex-row w-full justify-between">
+      <div className="flex-grow pr-4">
+        <textarea
           ref={textareaRef}
-          wrapperClassName="col-start-2 row-start-2 break-all"
-          className="bg-transparent text-xl outline-none placeholder:text-gray-500 max-w-full text-wrap"
+          className="bg-transparent text-xl outline-none placeholder:text-gray-500 w-full h-full"
           placeholder="Comment!"
           onKeyDown={handleKey}
+          style={{
+            resize: "none",
+            overflowY: "auto",
+          }}
         />
       </div>
       <div className="p-4">
@@ -73,5 +76,5 @@ export default function ReplyInput({
         </button>
       </div>
     </div>
-  );
+  );  
 }
