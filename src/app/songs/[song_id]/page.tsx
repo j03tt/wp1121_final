@@ -127,10 +127,10 @@ export default async function SongPage({
     .where(eq(commentsTable.songId, song_id_num))
     .orderBy((!Filter || Filter === "0")? desc(commentsTable.createdAt) : 
     (Filter === "1")? asc(commentsTable.createdAt) : 
-    (Filter === "2")? asc(scoresTable.score) : 
-    (Filter === "3")? desc(scoresTable.score) : 
-    (Filter === "4")? asc(likesSubquery.likes) : 
-    asc(dislikesSubquery.dislikes))
+    (Filter === "2")? desc(scoresTable.score) : 
+    (Filter === "3")? asc(scoresTable.score) : 
+    (Filter === "4")? desc(likesSubquery.likes) : 
+    desc(dislikesSubquery.dislikes))
     .leftJoin(scoresTable, eq(commentsTable.userName, scoresTable.userName))
     .leftJoin(likesSubquery, eq(commentsTable.id, likesSubquery.commentId))
     .leftJoin(likedSubquery, eq(commentsTable.id, likedSubquery.commentId))
@@ -159,10 +159,10 @@ export default async function SongPage({
     .where(eq(commentsTable.songId, song_id_num))
     .orderBy((!Filter || Filter === "0")? desc(commentsTable.createdAt) : 
     (Filter === "1")? asc(commentsTable.createdAt) : 
-    (Filter === "2")? asc(scoresTable.score) : 
-    (Filter === "3")? desc(scoresTable.score) : 
-    (Filter === "4")? asc(likesSubquery.likes) : 
-    asc(dislikesSubquery.dislikes))
+    (Filter === "2")? desc(scoresTable.score) : 
+    (Filter === "3")? asc(scoresTable.score) : 
+    (Filter === "4")? desc(likesSubquery.likes) : 
+    desc(dislikesSubquery.dislikes))
     .leftJoin(scoresTable, eq(commentsTable.userName, scoresTable.userName))
     .leftJoin(likesSubquery, eq(commentsTable.id, likesSubquery.commentId))
     .leftJoin(likedSubquery, eq(commentsTable.id, likedSubquery.commentId))
@@ -173,7 +173,7 @@ export default async function SongPage({
     errorRedirect();
   }
   }, 5000)
-
+  console.log(replies.length)
   const song = {
     id: songData.id,
     songName: songData.songName,
