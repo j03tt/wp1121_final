@@ -10,6 +10,7 @@
    - Database: Neon
 - 使用之第三方套件、框架、程式碼
    - 本課程的 hack2、hw3
+   - Next Auth、Toast、Drizzle-ORM、Material-UI、Tailwind CSS
 
 ## 功能說明
 
