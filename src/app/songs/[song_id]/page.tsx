@@ -110,16 +110,16 @@ export default async function SongPage({
     .where(and(eq(scoresTable.songId, song_id_num), eq(scoresTable.userName, username!)))
     .execute() : [];
 
-  var replies = await db
+    var replies = await db
     .with(likesSubquery, likedSubquery, dislikesSubquery, dislikedSubquery)
     .select({
       id: commentsTable.id,
       content: commentsTable.content,
       userName: commentsTable.userName,
       createAt: commentsTable.createdAt,
-      likes: likesSubquery.likes,
+      likes: sql<number>`COALESCE(${likesSubquery.likes}, 0)`.mapWith(Number).as("likes"),
       liked: likedSubquery.liked,
-      dislikes: dislikesSubquery.dislikes,
+      dislikes: sql<number>`COALESCE(${dislikesSubquery.dislikes}, 0)`.mapWith(Number).as("dislikes"),
       disliked: dislikedSubquery.disliked,
       score: scoresTable.score,
     })
