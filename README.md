@@ -48,7 +48,7 @@
       - 填入欲搜尋的歌曲名稱，並按下按鈕 `Search!`
       - 若結束搜尋，請將搜尋欄的內容清空，並再次按下按鈕 `Search!`，即可重新看到所有歌曲
    5. 排序
-      - 可依照日期（Descending/Ascending date）或歌曲平均（Descending/Ascending rating）評分對歌曲進行排序
+      - 可依照日期（Descending/Ascending date）或歌曲平均評分（Descending/Ascending rating）對歌曲進行排序
 
 3. 歌曲頁面
    1. 歌曲資訊
