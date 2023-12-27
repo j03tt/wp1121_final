@@ -10,8 +10,8 @@ const postSongRequestSchema = z.object({
   userName: z.string().min(1).max(50),
   songName: z.string().min(1).max(50),
   singerName: z.string().min(1).max(50),
-  songLink: z.string().min(1).max(150),
-  thumbnail: z.string().min(1).max(150),
+  songLink: z.string().min(1).max(300),
+  thumbnail: z.string().min(1).max(300),
   reviewers: z.number(),
   avgScore: z.number(),
 }); 
