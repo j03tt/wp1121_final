@@ -55,11 +55,11 @@ export default function DislikeButton({
           userName,
           commentId,
         })
-        window.location.reload();
       }
       setLikesCount((prev) => prev + 1);
       setLiked(true);
     }
+    window.location.reload();
   };
 
   const handleVisit: EventHandler<MouseEvent> = async (e) => {
