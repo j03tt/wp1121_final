@@ -45,7 +45,7 @@
       - 填入欲搜尋的歌曲名稱，並按下按鈕 `Search!`
       - 若結束搜尋，將搜尋欄的內容清空，重新按下按鈕 `Search!` 即可
    5. 排序
-      - 可依照日期或歌曲平均評分對歌曲進行排序
+      - 可依照日期（Descending/Ascending date）或歌曲平均（Descending/Ascending rating）評分對歌曲進行排序
 
 3. 歌曲頁面
    1. 歌曲資訊
@@ -59,7 +59,7 @@
       - 登入後，可以點選每一則評論的右方按鈕，like 或 dislike 該評論
          - 若欲修改 like 或 dislike，重新點選按鈕即可
       - 排序
-         - 無論是否登入，都可以依照評論時間、評論者給予該歌曲的評分、評論得到的 like 或 dislike 數量對評論進行排序
+         - 無論是否登入，都可以依照評論時間（Latest/Oldest on top）、評論者給予該歌曲的評分（Highest/Lowest Rating on top）、評論得到的 like 或 dislike 數量（Most Liked/Hated on top）對評論進行排序
 
 ## Running the app in localhost
 
