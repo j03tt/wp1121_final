@@ -115,7 +115,7 @@ export default async function ProfilePage({
                             <strong>Email:</strong> {userData.email}
                         </div>
                         <div className="mb-4">
-                            <strong>Bio:</strong> {userData.bio}
+                            <strong>Bio:</strong> <span className="break-words">{userData.bio}</span>
                         </div>
                     </div>
                     <div className="p-6 rounded-lg shadow-md w-96">
