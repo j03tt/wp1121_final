@@ -17,7 +17,7 @@ export default async function HeaderBar() {
   return (
     <div className="flex flex-row items-center justify-between px-4 mb-2">
         <Link href={`${publicEnv.NEXT_PUBLIC_BASE_URL}`}>
-            <h1 className="px-4 text-xl font-bold text-center">Music!</h1>
+            <h1 className="px-4 text-xl font-bold text-center">Capture Your Music!</h1>
         </Link>
         <SearchBar />
         <div className="flex items-center gap-4">

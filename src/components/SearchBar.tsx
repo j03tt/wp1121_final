@@ -2,13 +2,11 @@
 
 import { useRef } from "react";
 import { Input } from "@/components/ui/input";
-import { Search } from "lucide-react"
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
-import { useSession } from "next-auth/react";
+import CatchingPokemonIcon from '@mui/icons-material/CatchingPokemon';
+
 export default function SearchBar(){
   const router = useRouter();
-  const {data: session} = useSession();
-  const username = session?.user?.name;
   const keywordInputRef = useRef<HTMLInputElement>(null);
   const pathname = usePathname();
   const searchParams = useSearchParams()
@@ -45,11 +43,11 @@ export default function SearchBar(){
         }}
       />
       <button
-        className="flex h-10 items-center rounded-full p-3 text-start transition-colors duration-300 border border-gray-500 border-solid hover:bg-gray-200"
+        className="flex h-10 items-center rounded-full gap-2 p-3 text-start transition-colors duration-300 border border-gray-500 border-solid hover:bg-gray-200"
         onClick={handleSearch}
       >
-        <Search />
-        <p className="text-sm font-bold">Search!</p>
+        <CatchingPokemonIcon />
+        <p className="text-sm font-bold">Capture</p>
       </button>
     </div>
   )
