@@ -1,12 +1,12 @@
 import { redirect } from "next/navigation";
 
-import useAuth from "@/hooks/useAuth";
+import { auth } from "@/hooks/useAuth";
 import { publicEnv } from "@/lib/env/public";
 
 import AuthForm from "./_components/AuthForm";
 
 export default async function AuthPage() {
-  const { auth } = useAuth();
+  // const { auth } = useAuth();
 
   // If signed in, redirect to /
   const session = await auth();

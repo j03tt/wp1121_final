@@ -1,5 +1,5 @@
 import Link from "next/link";
-import useAuth from "@/hooks/useAuth";
+import { auth } from "@/hooks/useAuth";
 
 import { db } from "@/db";
 import { usersTable, songsTable, scoresTable } from "@/db/schema";
@@ -25,7 +25,7 @@ type ProfilePageProps = {
 export default async function ProfilePage({
     params: { user_id },
 }: ProfilePageProps) {
-	const { auth } = useAuth();
+	// const { auth } = useAuth();
     const session = await auth();
 
     const errorRedirect = () => {

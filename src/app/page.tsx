@@ -1,4 +1,4 @@
-import useAuth from "@/hooks/useAuth";
+import { auth } from "@/hooks/useAuth";
 import Song from "@/components/Song";
 import HeaderBar from "@/components/HeaderBar";
 import SearchBar from "@/components/SearchBar";
@@ -19,7 +19,7 @@ type HomePageProps = {
 export default async function Home({
   searchParams: { keyWord, Filter },
 }: HomePageProps) {
-  const { auth } = useAuth();
+  // const { auth } = useAuth();
   const session = await auth();
   const username = session?.user?.name;
   const songs = await db

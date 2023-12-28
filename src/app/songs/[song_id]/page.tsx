@@ -1,7 +1,6 @@
 import Link from "next/link";
-import useAuth from "@/hooks/useAuth";
+import { auth } from "@/hooks/useAuth";
 import { redirect } from "next/navigation";
-import Image from "next/image";
 // import { useSession } from "next-auth/react";
 import { eq, asc, desc, sql, like, notIlike, and} from "drizzle-orm";
 import Rating from '@mui/material/Rating';
@@ -36,7 +35,7 @@ export default async function SongPage({
     console.log("uwu", song_id)
     redirect(`/?${params.toString()}`);
   };
-  const { auth } = useAuth();
+  // const { auth } = useAuth();
   const session = await auth();
   const username = session?.user?.name;
   //if(!username) return;
@@ -203,7 +202,7 @@ export default async function SongPage({
         <div className="flex h-max w-1/2 flex-col overflow-auto pt-2 items-center border-2 gap-2">
           <div className="flex flex-col justify-between items-center px-4 pt-3 w-full gap-3">
             <div className="flex w-full gap-3 flex-row">
-              <Image src={song.thumbnail} alt="Song image Src" className="w-1/3"/>
+              <img src={song.thumbnail} alt="Song image Src" className="w-1/3"/>
               <div className="flex flex-col justify-around w-full gap-2">
                 <div className="flex flex-row gap-1 justify-between items-center">
                   <p className="font-bold text-3xl">{song.songName ?? "..."}</p>

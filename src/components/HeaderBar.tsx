@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { publicEnv } from "@/lib/env/public";
 
-import useAuth from "@/hooks/useAuth";
+import { auth } from "@/hooks/useAuth";
 import Filter from "./Filter";
 import NewSongButton from "@/components/uploadSong";
 import SignInButton from "@/components/SignInButton";
@@ -10,7 +10,7 @@ import MyAccountButton from "@/components/MyAccountButton";
 import SearchBar from "@/components/SearchBar";
 
 export default async function HeaderBar() {
-  const { auth } = useAuth();
+//   const { auth } = useAuth();
   const session = await auth();
   const user_id = session?.user?.id;
 

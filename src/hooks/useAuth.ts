@@ -8,8 +8,10 @@ import { eq } from "drizzle-orm";
 import { db } from "@/db";
 import { usersTable } from "@/db/schema";
 
-export default function useAuth(){
-  const { handlers: { GET, POST }, auth } = NextAuth({
+export const {
+  handlers: { GET, POST },
+  auth,
+} = NextAuth({
     providers: [GitHub, CredentialsProvider],
     callbacks: {
       async session({ session, token }) {
@@ -66,10 +68,4 @@ export default function useAuth(){
       signIn: "/auth",
       error: '/auth'
     },
-  });
-  
-  return { 
-    handlers: { GET, POST },
-    auth
-   };
-};
+});

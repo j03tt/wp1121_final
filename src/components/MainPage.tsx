@@ -1,19 +1,19 @@
 "use client"
 
-import { eq, desc, isNull, sql, like, notIlike, and} from "drizzle-orm";
-import { db } from "@/db";
-import { likesTable, songsTable, usersTable } from "@/db/schema";
+// import { eq, desc, isNull, sql, like, notIlike, and} from "drizzle-orm";
+// import { db } from "@/db";
+// import { likesTable, songsTable, usersTable } from "@/db/schema";
 import { useSession } from "next-auth/react";
-import Song from "@/components/Song";
-import Link from "next/link";
-import { publicEnv } from "@/lib/env/public";
-import useAuth from "@/hooks/useAuth";
+// import Song from "@/components/Song";
+// import Link from "next/link";
+// import { publicEnv } from "@/lib/env/public";
+// import { auth } from "@/hooks/useAuth";
 import useUserInfo from "@/hooks/useUserInfo";
 import useSong from "@/hooks/useSong";
 
 export default function MainPage() {
-  const {username} = useUserInfo();
-  const { data: session } = useSession();
+  // const {username} = useUserInfo();
+  // const { data: session } = useSession();
 
   // const { auth } = useAuth();
   // const session = await auth();
