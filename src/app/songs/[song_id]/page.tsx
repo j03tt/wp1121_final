@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { auth } from "@/hooks/useAuth";
 import { redirect } from "next/navigation";
 // import { useSession } from "next-auth/react";
@@ -193,7 +194,7 @@ export default async function SongPage({
           <Link href={{ pathname: "/", query: { username } }}>
             <ArrowLeft className="mt-4" size={32} />
           </Link>
-          <h1 className="text-3xl mt-4 font-bold text-center">Back to Menu</h1>
+          <h3 className="text-lg mt-4 font-bold text-center">Back to Menu</h3>
         </div>
         <FilterReply></FilterReply>
       </div>

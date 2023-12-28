@@ -98,7 +98,7 @@ export default async function ProfilePage({
                     <Link href={{ pathname: "/" }}>
                         <ArrowLeft className="mt-4" size={32} />
                     </Link>
-                    <h1 className="text-3xl mt-4 font-bold text-center">Back to Menu</h1>
+                    <h3 className="text-lg mt-4 font-bold text-center">Back to Menu</h3>
                 </div>
                 <div className="flex flex-row items-start justify-center px-4 mt-4">
                     <div className="p-6 rounded-lg shadow-md w-96">

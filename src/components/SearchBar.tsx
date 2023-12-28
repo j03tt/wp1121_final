@@ -30,7 +30,7 @@ export default function SearchBar(){
   };
   
   return(
-    <div className="w-2/5 flex flex-row justify-center item-center gap-4">
+    <div className="w-1/3 flex flex-row justify-center item-center gap-4">
       <Input
         placeholder="Search a song..."
         defaultValue={""}

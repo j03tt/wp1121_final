@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 
 // import { MessageCircle, Repeat2, Share } from "lucide-react";
 
