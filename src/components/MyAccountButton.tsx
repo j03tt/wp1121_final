@@ -24,5 +24,5 @@ export default function MyAccountButton({ userName }: MyAccountButtonProps) {
 		}
 	};
 
-	return <Button variant={"outline"} onClick={handleClick}>{userName}'s Account</Button>;
+	return <Button variant={"outline"} onClick={handleClick}>{userName}&apos;s Account</Button>;
 }

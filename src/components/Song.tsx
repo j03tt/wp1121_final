@@ -3,10 +3,11 @@ import Link from "next/link";
 // import { MessageCircle, Repeat2, Share } from "lucide-react";
 
 import { Separator } from "@/components/ui/separator";
+import Image from "next/image";
 // import { getAvatar } from "@/lib/utils";
 
-import LikeButton from "./LikeButton";
-import TimeText from "./TimeText";
+// import LikeButton from "./LikeButton";
+// import TimeText from "./TimeText";
 
 type SongProps = {
   id: number,
@@ -35,7 +36,7 @@ return (
     >
       <div className="flex gap-4">
         <article className="flex grow flex-col gap-3">
-          <img
+          <Image
             src={image}
             alt="Song image Src"
             className="w-full h-40 object-cover" // Set a fixed height, adjust as needed
