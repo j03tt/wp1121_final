@@ -4,7 +4,7 @@
 
 - 這個服務在做什麼：Capture Your Music! 是一個音樂評分/評論平台，靈感來自於影評平台 LetterBoxd。透過 Capture Your Music!，用戶可以發布他們喜愛的音樂作品，同時對其他用戶上傳的音樂進行評分與評論，進一步促進音樂愛好者之間的交流與分享。
 - Demo 影片連結：https://www.youtube.com/watch?v=tiXNoHdG1FE
-- Deployed 連結：
+- Deployed 連結：https://wp1121-final-ivory.vercel.app/
 - 使用與參考之框架/模組/原始碼
    - Frontend & Backend: Next.js
    - Database: Neon
